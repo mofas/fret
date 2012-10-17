@@ -41,8 +41,7 @@ var chord_diagram = (function(o){
 		else
 			noteMap = [0,0,0,0,0,0];
 		for(var i = 0; i < 6 ; i++){
-			var note = noteMap[i];
-			console.log(note);
+			var note = noteMap[i];			
 			if(note < 0){				
 				$muteButtonWrap.find(".muteButton").eq(i).trigger("click");				
 			}
@@ -94,7 +93,7 @@ var chord_diagram = (function(o){
 				$sameString.removeClass("hide");				
 			}						
 			$muteButtonWrap.find(".muteButton").eq(stringIndex).addClass("disable");			
-			var note = getNote(stringIndex , fretIndex);	
+			var note = getNote(stringIndex , fretIndex-1);	
 			$(".noteArea .note").eq(stringIndex).html(note);
 			$sameString.find(".finger").hide();							
 			$(this).find(".finger").show();
