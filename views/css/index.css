@@ -9,6 +9,30 @@ body{
 .clear{
 	clear: both;
 }
+
+.topNote{
+	width:720px;	
+	margin: 40px auto;	
+	margin-bottom: 20px;
+	letter-spacing: 1px;
+	font-size: 18px;
+	font-family: '微軟正黑體';
+	color: #333;
+	text-align:center;
+	border-bottom: 2px solid #aaa;
+}
+
+.topNote a{
+	text-decoration: none;
+	margin: 0 10px;
+	color: #7C0000;
+	font-size: 30px;	
+}
+
+.topNote a:hover{
+	color: #E40000;
+}
+
 .fretIndexWrap{
 	width:690px;
 	padding-left: 10px;
@@ -270,9 +294,14 @@ body{
 	background: #000;	
 }
 
-#outputLink{
-	margin: 0px auto;
-	width: 720px;
+.outputButton .note{
+	font-size: 12px;
+	letter-spacing: 1px;
+}
+
+#outputLink{		
+	margin: 0 auto;
+	width: 760px;
 	text-align: center;
 }
 

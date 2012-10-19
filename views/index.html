@@ -10,9 +10,13 @@
     <link rel="stylesheet"  href="css/index.css" />
     <!-- JS -->      
     <script type="text/javascript" src="js/index.js"></script>
+    <script type="text/javascript" src="js/canvas.js"></script>
   </head>
 
   <body>    
+    <div class="topNote">
+      和弦工具beta由<a href="http://www.myguitarfriend.com">吉他好朋友</a>提供
+    </div>
     <div class="fretIndexWrap">
       <div class="fretIndex">1</div>
       <div class="fretIndex">2</div>
@@ -462,10 +466,11 @@
           </div>          
         </div>        
       </div>
-      <a class="outputButton" href="javascript:chord_diagram.output();">輸出連結</a>
+      <a class="outputButton" href="javascript:chord_diagram.saveAsImage();">存為圖檔<span class="note">(檔名請取為XXX.png)</span></a>
+      <a class="outputButton" href="javascript:chord_diagram.output();">輸出連結</a>      
       <div id="outputLink"></div>
-    </div>
-
+    </div>  
+    <canvas style="visibility: hidden;" id="canvas" width="320" height="180"></canvas>
 
   </body>
 
