@@ -1,9 +1,4 @@
 
-$(function(){			
-	canvas_chord_diagram.init();
-});
-
-
 
 var canvas_chord_diagram = (function(o){
 
@@ -42,7 +37,9 @@ var canvas_chord_diagram = (function(o){
 		ctx.font = 'italic bold 20px sans-serif';
 		ctx.textBaseline = 'bottom';
 		ctx.fillStyle = "#333"
-		ctx.fillText(first_fret , 25 + 0.5*fretW , 27);
+		if(first_fret > 1){
+			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);
+		}
 
 		for(var i=0; i < fingerIndex.length ;i++){			
 			if(fingerIndex[i] > 0){
@@ -67,7 +64,12 @@ var canvas_chord_diagram = (function(o){
 	}
 
 	function reDraw(){
-		ctx.clearRect ( 0 , 0 , W , H );
+		if(ctx === undefined){
+			initCanvas();
+		}
+		else{
+			ctx.clearRect ( 0 , 0 , W , H );
+		}
 		draw();		
 	}
 
@@ -81,19 +83,36 @@ var canvas_chord_diagram = (function(o){
 				last_fret = fingerIndex[i];
 		}
 		fretDiff = last_fret - first_fret + 1;
+		if(last_fret < 4){
+			last_fret = 3;
+			first_fret = 1;
+			fretDiff = 4;
+		}
+		if(fretDiff < 4){
+			last_fret = first_fret + 3;
+			fretDiff = 4;
+		}
 		fretW = 280/fretDiff;
 		drawBasicLayout();
 		drawChord();
 	}
 
-	o.init = function(){
-		canvas = document.getElementById("canvas");
+	function initCanvas(){
+		canvas = document.createElement('canvas');
+		canvas.width = 320; 
+		canvas.height = 180;
+		//TEST CODE
+		//$('body').append(canvas);
 		ctx = canvas.getContext("2d");
 		W = canvas.width;
 		H = canvas.height;
+	}
+
+	o.init = function(){		
+		initCanvas();
 
 		//fingerIndex is an array has 6 element represents the index in the fret.
-		fingerIndex =  [0,1,0,2,3,0];
+		fingerIndex =  [0,3,0,3,4,2];
 		draw();
 	}
 
@@ -110,7 +129,7 @@ var canvas_chord_diagram = (function(o){
 		if(indexArray instanceof Array && indexArray.length == 6){
 			fingerIndex = indexArray;
 			reDraw();
-		}
+		}		
 	}
 
 	return o;

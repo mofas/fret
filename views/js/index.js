@@ -101,11 +101,11 @@ var chord_diagram = (function(o){
 	}
 
 
-	var getOutputArray = function(){
+	var getOutputArray = function(){		
 		$strings.each(function(index , obj){
 			$string = $(obj);
 			$button = $string.find(".finger:visible");
-			var isMute = $muteButtonWrap.find(".muteButton").eq(index).hasClass("mute");			
+			var isMute = $muteButtonWrap.find(".muteButton").eq(index).hasClass("mute");						
 			if($button.length > 0){								
 				outputArray[index] = parseInt($button.index('.finger'))- 15*index + 1;
 			}
@@ -116,9 +116,8 @@ var chord_diagram = (function(o){
 				else{
 					outputArray[index] = 0;
 				}
-			}
+			}			
 		});	
-
 	}
 
 	o.init	=	function(){
@@ -136,24 +135,10 @@ var chord_diagram = (function(o){
 
 	o.output = function(){		
 		var outputString ="note=" , $string , $button , isMute;
-
-		$strings.each(function(index , obj){
-			$string = $(obj);
-			$button = $string.find(".finger:visible");
-			var isMute = $muteButtonWrap.find(".muteButton").eq(index).hasClass("mute");			
-			if($button.length > 0){								
-				outputString += (parseInt($button.index('.finger'))- 15*index + 1) + "_";
-			}
-			else{
-				if(isMute){
-					outputString += "-1_" ;
-				}
-				else{
-					outputString += "0_";
-				}
-			}
-		});	
-
+		getOutputArray();		
+		for(var i = 0 ,arrIndex = outputArray.length ; i < arrIndex ; i++){
+			outputString += outputArray[i] + "_";
+		}
 		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length;
 		var url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;		
 		var link = '<a traget="_blank" href="'+url+'">'+url+'</a>';
@@ -161,8 +146,7 @@ var chord_diagram = (function(o){
 	}
 
 	o.saveAsImage = function(){
-		getOutputArray();
-		console.log(outputArray);
+		getOutputArray();		
 		canvas_chord_diagram.setFingerIndex(outputArray);
 		canvas_chord_diagram.saveAsImage();
 	}

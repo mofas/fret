@@ -10,11 +10,18 @@
         <!--<link rel="stylesheet"  href="css/canvas.css" />-->
         <!-- JS -->      
         <script type="text/javascript" src="js/canvas.js"></script>
+        <script>        
+            $(function(){           
+                canvas_chord_diagram.init();
+            });
+        </script>
+
     </head>
     <body>
+        <!--
         <canvas style="margin: 20px; display: block;" id="canvas" width="320" height="180"></canvas>
-        <button onclick="canvas_chord_diagram.saveAsImage();">Save As PNG</button>
-        <button onclick="canvas_chord_diagram.setFingerIndex();">Save As PNG</button>
+        -->
+        <button onclick="canvas_chord_diagram.saveAsImage();">Save As PNG</button>        
     </body>
 
 </html>
