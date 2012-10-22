@@ -6,9 +6,11 @@ var canvas_chord_diagram = (function(o){
 		fingerIndex,first_fret=24, last_fret=0, 
 		fretDiff,fretW;
 
-	function drawBasicLayout(){				
+	function drawBasicLayout(){	
+		/**			
 		ctx.fillStyle = "white";
 		ctx.fillRect(0, 0, W, H);
+		**/
 
 		ctx.beginPath();
 		ctx.moveTo(30, 33);
@@ -131,6 +133,17 @@ var canvas_chord_diagram = (function(o){
 			reDraw();
 		}		
 	}
+
+	o.getFingerIndex = function(){
+		return fingerIndex;
+	}
+
+	o.getCanvas = function(){
+		var returnCanvas = canvas.cloneNode();
+		var destCtx = returnCanvas.getContext('2d');
+		destCtx.drawImage(canvas, 0, 0);
+		return returnCanvas;
+	}	
 
 	return o;
 

@@ -11,6 +11,7 @@
     <!-- JS -->      
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/canvas.js"></script>
+    <script type="text/javascript" src="js/chordCollection.js"></script>
   </head>
 
   <body>    
@@ -465,12 +466,29 @@
             <div class="fret"></div>        
           </div>          
         </div>        
-      </div>
-      <a class="outputButton" href="javascript:chord_diagram.saveAsImage();">存為圖檔<span class="note">(檔名請取為XXX.png)</span></a>
-      <a class="outputButton" href="javascript:chord_diagram.output();">輸出連結</a>      
-      <div id="outputLink"></div>
-    </div>      
+      </div>      
+    </div>
 
+    <div id="buttonPanel">
+      <a id="addButton" class="button" href="javascript:chord_diagram.add();">新增</a>
+      <a id="updateButton" class="button" href="javascript:chord_diagram.update();">儲存</a>
+      <a id="cancelButton" class="button" href="javascript:chord_diagram.cancel();">取消</a>
+    </div>
+
+    <div id="chordListWrap">    
+      <ul id="chordList">
+
+      </ul>
+      <div class="clear"></div>
+    </div>
+
+    <div id="mainPanel">
+      <!--<a class="outputButton" href="javascript:chord_diagram.saveAsImage();"></span></a>-->
+      <a class="outputButton" href="javascript:chord_collection.outputCollectionImage();">存為圖檔<span class="note">(檔名請取為XXX.png)</a> 
+      <!--<a class="outputButton" href="javascript:chord_diagram.output();">輸出連結</a>
+      <div id="outputLink"></div>
+      -->
+    </div>
   </body>
 
 
