@@ -1,0 +1,92 @@
+
+
+
+/******************************************************
+**  chordList 
+******************************************************/
+#chordListWrap{
+	width: 1010px;
+	margin: 20px auto;	
+}
+
+#chordList{
+	margin-left: -20px;
+	list-style-type: none;
+	padding: 0;
+}
+
+#chordList li{
+	margin-left: 20px;
+	width: 320px;	
+	height: 240px;
+	float:left;
+}
+
+#chordList li.currentEdit{
+	background: #FFFAE8;
+}
+#buttonPanel{
+	width: 760px;
+	margin: 40px auto;
+}
+
+.button{
+	padding: 5px 20px;
+	color: #fff;
+	margin: 0 20px;
+	text-decoration: none;		
+	border: 1px solid #1E5799;
+	border-radius: 5px;	
+	position: relative;
+	z-index: 1;
+	text-shadow: 0 1px 0 rgba(0,0,0,1);
+	box-shadow: 0 1px 1px rgba(255,255,255,0.8);
+
+	background: rgb(30,87,153);
+	background: -moz-linear-gradient(top,  rgba(30,87,153,1) 0%, rgba(41,137,216,1) 50%, rgba(32,124,202,1) 51%, rgba(125,185,232,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(30,87,153,1)), color-stop(50%,rgba(41,137,216,1)), color-stop(51%,rgba(32,124,202,1)), color-stop(100%,rgba(125,185,232,1)));
+	background: -webkit-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);
+	background: -o-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);
+	background: linear-gradient(to bottom,  rgba(30,87,153,1) 0%,rgba(41,137,216,1) 50%,rgba(32,124,202,1) 51%,rgba(125,185,232,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
+}
+
+.button:after{
+	position: absolute;
+	z-index: -1;
+	left: -10px;
+	top: -8px;
+
+	padding: 7px 10px;
+	width: 100%;
+	height: 100%;
+	content: ' ';
+	background: #ddd;
+	border-radius: 5px;
+	
+	box-shadow: inset 0 1px 2px rgba(0,0,0,0.2) , 0 1px 1px rgba(255,255,255,0.8);
+}
+
+
+.button.delete{
+	background: rgb(153,30,30);
+	background: -moz-linear-gradient(top,  rgba(153,30,30,1) 0%, rgba(216,41,41,1) 50%, rgba(198,31,31,1) 51%, rgba(232,125,125,1) 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(153,30,30,1)), color-stop(50%,rgba(216,41,41,1)), color-stop(51%,rgba(198,31,31,1)), color-stop(100%,rgba(232,125,125,1)));
+	background: -webkit-linear-gradient(top,  rgba(153,30,30,1) 0%,rgba(216,41,41,1) 50%,rgba(198,31,31,1) 51%,rgba(232,125,125,1) 100%);
+	background: -o-linear-gradient(top,  rgba(153,30,30,1) 0%,rgba(216,41,41,1) 50%,rgba(198,31,31,1) 51%,rgba(232,125,125,1) 100%);
+	background: -ms-linear-gradient(top,  rgba(153,30,30,1) 0%,rgba(216,41,41,1) 50%,rgba(198,31,31,1) 51%,rgba(232,125,125,1) 100%);
+	background: linear-gradient(to bottom,  rgba(153,30,30,1) 0%,rgba(216,41,41,1) 50%,rgba(198,31,31,1) 51%,rgba(232,125,125,1) 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#991e1e', endColorstr='#e87d7d',GradientType=0 );
+	border: 1px solid rgba(153,30,30,1);
+}
+
+#cancelButton ,#updateButton{
+	display: none;
+}
+
+#mainPanel{
+	width: 960px;
+	margin: 0 auto;
+	text-align:right;
+}

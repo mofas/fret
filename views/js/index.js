@@ -168,7 +168,7 @@ var chord_diagram = (function(o){
 		canvas_chord_diagram.setFingerIndex(outputArray);		
 		var index = chord_collection.add(canvas_chord_diagram.getCanvas() , outputArray.slice());
 		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:chord_diagram.edit(this , '+index+');" >編輯</a>'
-							+'<a class="button" href="javascript:null;" onclick="chord_diagram.delete(this , '+index+');">刪除</a>'
+							+'<a class="button delete" href="javascript:null;" onclick="chord_diagram.delete(this , '+index+');">刪除</a>'
 
 		var fragmentHtml = $('<li class="chordItem"></li>');
 		fragmentHtml.append(canvas_chord_diagram.getCanvas);
