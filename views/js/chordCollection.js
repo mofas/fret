@@ -2,7 +2,7 @@
 
 var chord_collection = (function(o){
 
-
+	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
 	var chordCollection = [];	
 	var uuID = 0;
 	//chordObj
@@ -66,15 +66,30 @@ var chord_collection = (function(o){
 		//$('body').append(outputCanvas);
 		var imageData;		
 		for(var i = 0 ; i < length ; i++){
-			imageData = chordCollection[i].canvas;			
+			imageData = chordCollection[i].canvas;
 			outputCanvasCtx.drawImage(imageData,(i%3)*320 ,Math.floor(i/3)*180+10);
 		}
 		var strDownloadMime = "image/octet-stream";
 		var saveFile = function(strData) {
 			document.location.href = strData;
 		}
-		var strData = outputCanvas.toDataURL("image/png");		
+		var strData = outputCanvas.toDataURL("image/png");
 		saveFile(strData.replace("image/png", strDownloadMime));
+	}
+
+
+	o.outputCollectionURL = function(){
+		var length = chordCollection.length;
+		var fingerIndex , outputURLFragment = [] , outputURL=[];		
+		for(var i = 0; i < length ;i++){
+			outputURLFragment=["&c="];
+			fingerIndex = chordCollection[i].fingerIndex;			
+			for(var j = 0; j < fingerIndex.length ;j++){				
+				outputURLFragment.push(fingerIndexMap[fingerIndex[j]+1]);				
+			}			
+			outputURL.push(outputURLFragment.join("")); 
+		}		
+		return outputURL.join("");
 	}
 
 	return o;

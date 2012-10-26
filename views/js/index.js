@@ -9,6 +9,7 @@ var chord_diagram = (function(o){
 	var $muteButtonWrap;
 	var fingerIconFraHtml = '<div class="finger"></div>';
 
+	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
 	var noteArray = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
 	//var noteArray2 = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 	var openStringNoteIndex = [4,11,7,2,9,4];
@@ -21,15 +22,34 @@ var chord_diagram = (function(o){
 	}
 
 	var parseNoteByURL = function(){		
-		var param =  window.top.location.search.substring(1);		
-		var end = param.lastIndexOf("_") || param.indexOf("&") || param.length;		
-		param = param.substring(param.indexOf("note=")+5 , end); 		
+		var param =  window.location.href.split("?")[1];			
 
-		if(param.length > 0 )
-			outputArray = param.split("_");		
-		else
+		//chord collection
+		var collection = param.split("&c=").slice(1);		
+		var strArray;
+		for(var i =0; i < collection.length ;i++){
+			strArray = collection[i].split("");
+			var intArray = new Array(6);
+			for(var j=0;j < strArray.length;j++){
+				intArray[j] = isNaN(parseInt(strArray[j] , 10)) ? -1 : parseInt(strArray[j] , 10);
+			}			
+			outputArray = intArray;			
+			add();
+		}
+
+
+		var noteInfo = param.substring(param.indexOf("note=")+5 , param.indexOf("note=")+11);
+		if(noteInfo.length > 0 ){						
+			var fingerIndexString = fingerIndexMap.join("");
+			var rawArray = noteInfo.split("");
+			for(var i = 0 ; i < rawArray.length ; i++){
+				outputArray[i] = fingerIndexString.indexOf(rawArray[i])-1;
+			}			
+		}
+		else{
 			outputArray = [0,0,0,0,0,0];
-
+		}
+				
 		parseNote();
 	}
 
@@ -143,8 +163,10 @@ var chord_diagram = (function(o){
 		var outputString ="note=" , $string , $button , isMute;
 		getOutputArray();		
 		for(var i = 0 ,arrIndex = outputArray.length ; i < arrIndex ; i++){
-			outputString += outputArray[i] + "_";
+			outputString += fingerIndexMap[outputArray[i]+1];
 		}
+		//collection
+		outputString += chord_collection.outputCollectionURL();
 		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length;
 		var url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;		
 		var link = '<a traget="_blank" href="'+url+'">'+url+'</a>';
@@ -165,13 +187,17 @@ var chord_diagram = (function(o){
 
 	o.add = function(){
 		getOutputArray();
+		add();
+	}
+
+	var add = function(){
+		console.log(outputArray);
 		canvas_chord_diagram.setFingerIndex(outputArray);		
 		var index = chord_collection.add(canvas_chord_diagram.getCanvas() , outputArray.slice());
 		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:chord_diagram.edit(this , '+index+');" >編輯</a>'
 							+'<a class="button delete" href="javascript:null;" onclick="chord_diagram.delete(this , '+index+');">刪除</a>'
-
 		var fragmentHtml = $('<li class="chordItem"></li>');
-		fragmentHtml.append(canvas_chord_diagram.getCanvas);
+		fragmentHtml.append(canvas_chord_diagram.getCanvas());
 		fragmentHtml.append($(buttonHtml));
 		$("#chordList").append(fragmentHtml);
 	}

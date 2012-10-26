@@ -41,8 +41,7 @@ var canvas_chord_diagram = (function(o){
 		ctx.fillStyle = "#333"
 		if(first_fret > 1){
 			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);
-		}
-
+		}		
 		for(var i=0; i < fingerIndex.length ;i++){			
 			if(fingerIndex[i] > 0){
 				ctx.beginPath();
@@ -50,9 +49,8 @@ var canvas_chord_diagram = (function(o){
 				ctx.arc(position, 35+i*24, 10, 0, Math.PI*2 , false); 
 				ctx.fillStyle = "#333";		
 				ctx.fill();
-			}
-
-			else if(fingerIndex[i] < 0){
+			}			
+			else if(isNaN(parseInt(fingerIndex[i])) || parseInt(fingerIndex[i]) < 0){
 				ctx.beginPath();
 				ctx.strokeStyle = "#333";
 				ctx.lineWidth = 3;
