@@ -7,18 +7,6 @@ var canvas_chord_diagram = (function(o){
 		fretDiff,fretW;
 
 	function drawBasicLayout(){	
-		/**			
-		ctx.fillStyle = "white";
-		ctx.fillRect(0, 0, W, H);
-		**/
-
-		ctx.beginPath();
-		ctx.moveTo(30, 33);
-		ctx.lineTo(30, 157);
-		ctx.strokeStyle = "#333";
-		ctx.lineWidth = 10;
-		ctx.stroke();
-
 		ctx.beginPath();
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = "#333";
@@ -27,8 +15,8 @@ var canvas_chord_diagram = (function(o){
 			ctx.lineTo(300, 35+i*24);
 		}		
 		for(var i = 0; i < fretDiff ; i++){
-			ctx.moveTo(30+i*fretW, 33);
-			ctx.lineTo(30+i*fretW, 157);
+			ctx.moveTo(300-i*fretW, 33);
+			ctx.lineTo(300-i*fretW, 157);
 		}
 		ctx.stroke();
 	}
@@ -40,12 +28,23 @@ var canvas_chord_diagram = (function(o){
 		ctx.textBaseline = 'bottom';
 		ctx.fillStyle = "#333"
 		if(first_fret > 1){
-			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);
+			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);			
 		}		
+		else{
+			ctx.beginPath();
+			ctx.moveTo(20, 33);
+			ctx.lineTo(20, 157);
+			ctx.strokeStyle = "#333";
+			ctx.lineWidth = 10;
+			ctx.stroke();
+		}
+
 		for(var i=0; i < fingerIndex.length ;i++){			
 			if(fingerIndex[i] > 0){
 				ctx.beginPath();
-				position = 30 + 0.5*fretW + ((fingerIndex[i]-first_fret)*fretW) ;
+				position = 300 - 0.5*fretW - ((last_fret - fingerIndex[i] + 1)*fretW);				
+				if(first_fret > 1)
+					position += fretW;				
 				ctx.arc(position, 35+i*24, 10, 0, Math.PI*2 , false); 
 				ctx.fillStyle = "#333";		
 				ctx.fill();
@@ -110,7 +109,6 @@ var canvas_chord_diagram = (function(o){
 
 	o.init = function(){		
 		initCanvas();
-
 		//fingerIndex is an array has 6 element represents the index in the fret.
 		fingerIndex =  [0,3,0,3,4,2];
 		draw();
