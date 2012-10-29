@@ -1,29 +1,16 @@
 $(function(){			
-	chord_diagram.init();
+	main.init();
 });
 
 
-var chord_diagram = (function(o){
-
-	var $strings;
-	var $muteButtonWrap;
-	var fingerIconFraHtml = '<div class="finger"></div>';
+var main = (function(o){
 
 	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
-	var noteArray = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
-	//var noteArray2 = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
-	var openStringNoteIndex = [4,11,7,2,9,4];
-	var outputArray = new Array(6);
-
-
-	var getNote = function(stringIndex , fretIndex){
-		var initNote = (openStringNoteIndex[stringIndex] + fretIndex +1 ) % 12;		
-		return noteArray[initNote];
-	}
 
 	var parseNoteByURL = function(){		
 		var param =  window.location.href.split("?")[1];
 		//chord collection
+
 		if(param === undefined)
 			return;
 		
@@ -35,135 +22,44 @@ var chord_diagram = (function(o){
 			for(var j=0;j < strArray.length;j++){
 				intArray[j] = isNaN(parseInt(strArray[j] , 10)) ? -1 : parseInt(strArray[j] , 10);
 			}			
-			outputArray = intArray;			
-			add();
+			chord_diagram.setoutputArray(intArray);
+			add(intArray);
 		}
-
-
+		
 		var noteInfo = param.substring(param.indexOf("note=")+5 , param.indexOf("note=")+11);
+		var tempArray = new Array(6);
 		if(noteInfo.length > 0 ){						
 			var fingerIndexString = fingerIndexMap.join("");
 			var rawArray = noteInfo.split("");
 			for(var i = 0 ; i < rawArray.length ; i++){
-				outputArray[i] = fingerIndexString.indexOf(rawArray[i])-1;
-			}			
+				tempArray[i] = fingerIndexString.indexOf(rawArray[i])-1;
+			}
+			chord_diagram.setoutputArray(tempArray);
 		}
 		else{
-			outputArray = [0,0,0,0,0,0];
+			chord_diagram.setoutputArray([0,0,0,0,0,0]);
 		}
-				
-		parseNote();
+		
+		chord_diagram.parseNote();
 	}
 
-	var resetNote = function(){
-		$muteButtonWrap.find(".muteButton").removeClass("mute disable");
-		$(".finger").hide();		
-	}
-
-	var parseNote = function(){				
-		resetNote();		
-		for(var i = 0; i < 6 ; i++){
-			var note = outputArray[i];			
-			if(note < 0){				
-				$muteButtonWrap.find(".muteButton").eq(i).trigger("click");
-			}
-			else if(note == 0){								
-				$(".noteArea .note").eq(i).html(getNote(i,-1));
-			}
-			else{
-				$strings.eq(i).find(".fretWrap").eq(note-1).trigger("click");
-				$(".noteArea .note").eq(i).html(getNote(i,note-1));
-			}			
-		}	
-	}
-
-	var setFingerEvent	=	function(){		
-		$strings.on("click" , ".fretWrap" , function(){			
-			var $this = $(this);
-			var $sameString = $this.parent(".string");
-			var stringIndex = $sameString.index('.string');
-			var fretIndex = $(this).index();
-			if($sameString.hasClass("hide")){				
-				$sameString.removeClass("hide");				
-			}						
-			$muteButtonWrap.find(".muteButton").eq(stringIndex).addClass("disable");			
-			var note = getNote(stringIndex , fretIndex-1);	
-			$(".noteArea .note").eq(stringIndex).html(note);
-			$sameString.find(".finger").hide();							
-			$(this).find(".finger").show();
-		});
-	}
-
-
-	var setFingerButtonEvent	=	function(){
-		$strings.on("click" , ".finger" , function(e){			
-			e.stopPropagation();
-			e.preventDefault();						
-			var index = $(this).parents(".string").index(".string");			
-			$muteButtonWrap.find(".muteButton").eq(index).removeClass("disable");
-			$(this).hide();		
-			$(".noteArea .note").eq(index).html(getNote(index,-1));
-		});
-	}
-
-	var muteStringEvent = function(){		
-   		$muteButtonWrap.on("click" , ".muteButton" , function(){
-   			var index = $(this).index();   		
-   			if($(this).hasClass('mute')){   				
-   				$(this).removeClass('mute');
-   				$strings.eq(index).removeClass("hide");
-   				$(".noteArea .note").eq(index).html(getNote(index,-1));
-   			}
-   			else if($(this).hasClass('disable')){   	
-   				$(this).removeClass('disable').addClass('mute');
-   				$strings.eq(index).addClass("hide").find(".finger").hide();  
-   				$(".noteArea .note").eq(index).html('');
-   			}
-   			else{   				
-   				$(this).addClass('mute');
-   				$strings.eq(index).addClass("hide");	   				
-   				$(".noteArea .note").eq(index).html('');
-   			}
-   			
-   		});
-	}
-
-
-	var getOutputArray = function(){		
-		$strings.each(function(index , obj){
-			$string = $(obj);
-			$button = $string.find(".finger:visible");
-			var isMute = $muteButtonWrap.find(".muteButton").eq(index).hasClass("mute");						
-			if($button.length > 0){								
-				outputArray[index] = parseInt($button.index('.finger'))- 15*index + 1;
-			}
-			else{
-				if(isMute){
-					outputArray[index] = -1;
-				}
-				else{
-					outputArray[index] = 0;
-				}
-			}			
-		});	
-	}
 
 	o.init	=	function(){
-		$strings = $(".string");
-		$muteButtonWrap = $(".mutebuttonWrap");   	
-		bindEvent();
-		parseNoteByURL();				
+		var $strings = $(".string");
+		var $muteButtonWrap = $(".mutebuttonWrap");
+		chord_diagram.init($strings , $muteButtonWrap);
+		parseNoteByURL();
 	}
 
-	var bindEvent	=	function(){
-		muteStringEvent();
-		setFingerEvent();
-		setFingerButtonEvent();		
-	}	
+	o.saveAsImage = function(){
+		chord_diagram.getOutputArray();		
+		canvas_chord_diagram.setFingerIndex(outputArray);
+		canvas_chord_diagram.saveAsImage();
+	}
 
-	o.output = function(){		
-		var outputString ="note=" , $string , $button , isMute;
-		getOutputArray();		
+	o.output = function(){
+		var outputString = "note=";
+		var outputArray = chord_diagram.getOutputArray();
 		for(var i = 0 ,arrIndex = outputArray.length ; i < arrIndex ; i++){
 			outputString += fingerIndexMap[outputArray[i]+1];
 		}
@@ -172,32 +68,19 @@ var chord_diagram = (function(o){
 		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length;
 		var url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;		
 		var link = '<a traget="_blank" href="'+url+'">'+url+'</a>';
-		$("#outputLink").html(link);
-	}
-
-	o.setoutputArray = function(indexArray){		
-		if(indexArray instanceof Array && indexArray.length == 6){
-			outputArray = indexArray;			
-		}		
-	}
-
-	o.saveAsImage = function(){
-		getOutputArray();		
-		canvas_chord_diagram.setFingerIndex(outputArray);
-		canvas_chord_diagram.saveAsImage();
+		$("#outputLink").html(link);		
 	}
 
 	o.add = function(){
-		getOutputArray();
-		add();
+		var outputArray = chord_diagram.getOutputArray();		
+		add(outputArray);
 	}
 
-	var add = function(){
-		console.log(outputArray);
-		canvas_chord_diagram.setFingerIndex(outputArray);		
+	var add = function(outputArray){		
+		canvas_chord_diagram.setFingerIndex(outputArray);
 		var index = chord_collection.add(canvas_chord_diagram.getCanvas() , outputArray.slice());
-		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:chord_diagram.edit(this , '+index+');" >編輯</a>'
-							+'<a class="button delete" href="javascript:null;" onclick="chord_diagram.delete(this , '+index+');">刪除</a>'
+		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
+							+'<a class="button delete" href="javascript:null;" onclick="main.delete(this , '+index+');">刪除</a>'
 		var fragmentHtml = $('<li class="chordItem"></li>');
 		fragmentHtml.append(canvas_chord_diagram.getCanvas());
 		fragmentHtml.append($(buttonHtml));
@@ -206,16 +89,16 @@ var chord_diagram = (function(o){
 
 	o.edit = function(obj , id){
 		var chordObj = chord_collection.get(id);
-		o.setoutputArray(chordObj.fingerIndex);
+		chord_diagram.setoutputArray(chordObj.fingerIndex);
 		$("#chordList li.currentEdit").removeClass("currentEdit");
 		$(obj).parent("li").addClass("currentEdit");
 		editTargetId = id;
-		parseNote();
+		chord_diagram.parseNote();
 		editMode();
 	}
 
 	o.update = function(){
-		getOutputArray();
+		var outputArray = chord_diagram.getOutputArray();
 		canvas_chord_diagram.setFingerIndex(outputArray);
 		chord_collection.update(editTargetId , canvas_chord_diagram.getCanvas() , outputArray);
 		$("#chordList li.currentEdit").find("canvas").remove();
@@ -231,8 +114,8 @@ var chord_diagram = (function(o){
 	}
 
 	o.cancel = function(){
-		outputArray = [0,0,0,0,0,0];
-		parseNote();
+		chord_diagram.setoutputArray([0,0,0,0,0,0]);
+		chord_diagram.parseNote();
 		editTargetId = null;
 		$("#chordList li").removeClass("currentEdit");
 		addMode();
@@ -253,4 +136,4 @@ var chord_diagram = (function(o){
 
 	return o;
 
-})(chord_diagram || {});
+})(main || {});
