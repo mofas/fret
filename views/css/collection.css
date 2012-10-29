@@ -52,6 +52,17 @@
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#1e5799', endColorstr='#7db9e8',GradientType=0 );
 }
 
+.chordItem .button{
+	opacity: 0;
+    transition: all 0.5s;
+	-webkit-transition: all 0.5s;
+	-moz-transition: all 0.5s;
+}
+
+.chordItem:hover .button{
+	opacity: 1;
+}
+
 .button:after{
 	position: absolute;
 	z-index: -1;

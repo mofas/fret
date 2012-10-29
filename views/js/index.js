@@ -22,10 +22,11 @@ var chord_diagram = (function(o){
 	}
 
 	var parseNoteByURL = function(){		
-		var param =  window.location.href.split("?")[1];			
-
+		var param =  window.location.href.split("?")[1];
 		//chord collection
-		var collection = param.split("&c=").slice(1);		
+		if(param === undefined)
+			return;
+		var collection = param.split("&c=").slice(1);
 		var strArray;
 		for(var i =0; i < collection.length ;i++){
 			strArray = collection[i].split("");
@@ -205,6 +206,7 @@ var chord_diagram = (function(o){
 	o.edit = function(obj , id){
 		var chordObj = chord_collection.get(id);
 		o.setoutputArray(chordObj.fingerIndex);
+		$("#chordList li.currentEdit").removeClass("currentEdit");
 		$(obj).parent("li").addClass("currentEdit");
 		editTargetId = id;
 		parseNote();
