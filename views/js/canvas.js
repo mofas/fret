@@ -55,10 +55,10 @@ var canvas_chord_diagram = (function(o){
 				ctx.beginPath();
 				ctx.strokeStyle = "#333";
 				ctx.lineWidth = 3;
-				ctx.moveTo(10 , 30+i*24);
-				ctx.lineTo(20 , 40+i*24);
-				ctx.moveTo(20 , 30+i*24);
-				ctx.lineTo(10 , 40+i*24);
+				ctx.moveTo(2 , 30+i*24);
+				ctx.lineTo(12 , 40+i*24);
+				ctx.moveTo(12 , 30+i*24);
+				ctx.lineTo(2 , 40+i*24);
 				ctx.stroke();
 			}			
 		}	

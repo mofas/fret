@@ -26,6 +26,7 @@ var chord_diagram = (function(o){
 		//chord collection
 		if(param === undefined)
 			return;
+		
 		var collection = param.split("&c=").slice(1);
 		var strArray;
 		for(var i =0; i < collection.length ;i++){
