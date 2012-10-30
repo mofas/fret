@@ -6,14 +6,19 @@ $(function(){
 var main = (function(o){
 
 	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
+	var $chordList , 
+		inputMode = 0;
 
 	var parseNoteByURL = function(){		
 		var param =  window.location.href.split("?")[1];
 		//chord collection
 
-		if(param === undefined)
+		if(param === undefined){
+			chord_diagram.setoutputArray([0,0,0,0,0,0]);
+			chord_diagram.parseNote();
 			return;
-		
+		}
+					
 		var collection = param.split("&c=").slice(1);
 		var strArray;
 		for(var i =0; i < collection.length ;i++){
@@ -43,18 +48,29 @@ var main = (function(o){
 		chord_diagram.parseNote();
 	}
 
+	var bindEvent = function(){
+		$chordList = $("#chordList");
+		$chordList.on("click", ".chordItem" , function(){			
+			$(this).siblings().removeClass("selected").end().addClass("selected");			
+		});
+		$("#addButton").on("click" , o.add);
+		$("#updateButton").on("click" , o.update);
+		$("#cancelButton").on("click" , o.cancel);
+		$("#saveImageButton").on("click" , o.saveAsImage);
+		$("#outputURLButton").on("click" , o.output);		
+	}
+
 
 	o.init	=	function(){
 		var $strings = $(".string");
 		var $muteButtonWrap = $(".mutebuttonWrap");
 		chord_diagram.init($strings , $muteButtonWrap);
 		parseNoteByURL();
-	}
+		bindEvent();
+	}	
 
 	o.saveAsImage = function(){
-		chord_diagram.getOutputArray();		
-		canvas_chord_diagram.setFingerIndex(outputArray);
-		canvas_chord_diagram.saveAsImage();
+		chord_collection.outputCollectionImage();
 	}
 
 	o.output = function(){
@@ -111,6 +127,9 @@ var main = (function(o){
 	o.delete = function(obj , id){
 		chord_collection.delete(id);		
 		$(obj).parent("li").detach();
+		if(inputMode == 1){
+			o.cancel();
+		}
 	}
 
 	o.cancel = function(){
@@ -123,12 +142,14 @@ var main = (function(o){
 
 	var editTargetId = null;
 	var editMode = function(){
+		inputMode = 1;
 		$("#addButton").hide();
 		$("#updateButton").show();
 		$("#cancelButton").show();
 	}
 
 	var addMode = function(){
+		inputMode = 0;
 		$("#addButton").show();
 		$("#updateButton").hide();
 		$("#cancelButton").hide();

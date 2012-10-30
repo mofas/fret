@@ -44,8 +44,7 @@ var canvas_chord_diagram = (function(o){
 				ctx.beginPath();
 				position = 300 - 0.5*fretW - ((last_fret - fingerIndex[i] + 1)*fretW);				
 				if(first_fret > 1 || (first_fret = 1 && fretDiff > 4)){
-					position += fretW;
-					console.log("trigger");
+					position += fretW;					
 				}
 				ctx.arc(position, 35+i*24, 10, 0, Math.PI*2 , false); 
 				ctx.fillStyle = "#333";		

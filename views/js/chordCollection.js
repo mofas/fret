@@ -57,6 +57,7 @@ var chord_collection = (function(o){
 		if(canvasWidth > 960 )
 			canvasWidth = 960;
 
+		canvasWidth += 40;
 		var outputCanvas = document.createElement('canvas');		
 		outputCanvas.width = canvasWidth; 
 		outputCanvas.height = canvasHeight;
@@ -67,7 +68,7 @@ var chord_collection = (function(o){
 		var imageData;		
 		for(var i = 0 ; i < length ; i++){
 			imageData = chordCollection[i].canvas;
-			outputCanvasCtx.drawImage(imageData,(i%3)*320 ,Math.floor(i/3)*180+10);
+			outputCanvasCtx.drawImage(imageData,(i%3)*320+20 ,Math.floor(i/3)*180+10);
 		}
 		var strDownloadMime = "image/octet-stream";
 		var saveFile = function(strData) {

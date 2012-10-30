@@ -22,14 +22,14 @@ var chord_diagram = (function(o){
 	}
 
 	o.parseNote = function(){				
-		o.resetNote();		
+		o.resetNote();				
 		for(var i = 0; i < 6 ; i++){
 			var note = outputArray[i];			
 			if(note < 0){				
 				$muteButtonWrap.find(".muteButton").eq(i).trigger("click");
 			}
 			else if(note == 0){								
-				$(".noteArea .note").eq(i).html(getNote(i,-1));
+				$(".noteArea .note").eq(i).html(getNote(i,-1));				
 			}
 			else{
 				$strings.eq(i).find(".fretWrap").eq(note-1).trigger("click");
