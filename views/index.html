@@ -472,6 +472,7 @@
     </div>
 
     <div id="buttonPanel">
+      <input id="chordTitle" type="text" placeholder="輸入和絃名稱" value="">
       <a id="addButton" class="button" href="javascript:;">新增</a>
       <a id="updateButton" class="button" href="javascript:;">儲存</a>
       <a id="cancelButton" class="button" href="javascript:;">取消</a>
@@ -486,9 +487,13 @@
 
     <div id="mainPanel">      
       <a id="saveImageButton" class="outputButton" href="javascript:;">存為圖檔<span class="note">(檔名請取為XXX.png)</a> 
-      <a id="outputURLButton" class="outputButton" href="javascript:;">輸出連結</a>
-      <div id="outputLink"></div>      
-    </div>
+      <a id="outputURLButton" class="outputButton" href="javascript:;">分享</a>
+      <div class="outputLinkWrap">
+        <input type="checkbox" id="shorturl">
+        <label>縮短網址</label>
+        <input type="text" id="outputLink">
+      </div>      
+    </div>    
   </body>
 
 

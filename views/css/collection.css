@@ -62,6 +62,9 @@
 	-webkit-transition: all 0.5s;
 	-moz-transition: all 0.5s;
 }
+.chordItem.selected{
+	background: #fff;
+}
 
 .chordItem.selected .button{
 	visibility: visible;
@@ -102,7 +105,7 @@
 }
 
 #mainPanel{
-	width: 960px;
+	width: 860px;
 	margin: 0 auto;
 	text-align:right;
 }

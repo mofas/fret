@@ -29,6 +29,12 @@ var canvas_chord_diagram = (function(o){
 		ctx.fillStyle = "#333"
 		if(first_fret > 1){
 			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);			
+			ctx.beginPath();
+			ctx.moveTo(26, 33);
+			ctx.lineTo(26, 157);
+			ctx.strokeStyle = "#333";
+			ctx.lineWidth = 3;
+			ctx.stroke();
 		}		
 		else{
 			ctx.beginPath();

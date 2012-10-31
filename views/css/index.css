@@ -299,16 +299,45 @@ body{
 	letter-spacing: 1px;
 }
 
-#outputLink{		
-	margin: 0 auto;
-	width: 760px;
-	text-align: center;
+/***********************************
+**   outputURL
+************************************/
+
+.outputLinkWrap{
+	display: inline-block;
+	padding: 10px 20px;
+	border: 2px solid #aaa;
+	text-align: left;
+	border-radius: 5px;
+	margin-right: 60px;
+	visibility: hidden;
 }
 
-#outputLink a{
-	text-decoration: none;
-	font-style: italic;
-	font-weight: bold;
-	color :  #fff;
-	text-shadow: 0px 1px 0px #333 , 0px 0px 5px #000;
+#shorturl{
+	margin-top: 10px;	
+}
+
+.outputLinkWrap label{
+	font-size: 16px;
+	position: relative;
+	top: -3px;
+}
+
+#outputLink{
+	margin: 5px 0;
+	padding: 5px 10px;
+	font-size: 20px;
+	width: 300px;
+	display: block;
+	border-radius: 5px;
+	border: 1px solid #aaa;
+}
+
+#chordTitle{
+	font-size: 22px;
+	line-height: 30px;
+	border: 1px solid #aaa;
+	padding: 5px 10px;
+	margin: 2px 10px 2px 38px;
+	border-radius: 5px;	
 }
