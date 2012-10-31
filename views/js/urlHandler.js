@@ -10,15 +10,16 @@ window.initGoogleAPI	= function(){
 
 var urlHandler = (function(o){	
 	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
-	var $outputLink;
+	var $outputLink , $loadingMsg;
 
 	var originURL = "" , 
 		shortURL = "" ,  
 		URLIsChanged = false;
 
 
-	o.init = function($el1){
+	o.init = function($el1 , $el2){
 		$outputLink = $el1;
+		$loadingMsg = $el2;
 	}	
 
 	o.parseNoteByURL = function(){		
@@ -61,21 +62,23 @@ var urlHandler = (function(o){
 	}
 
 
-	o.shortUrl = function(){			    
+	o.shortUrl = function(){
+		showLoadingMsg();
         if(shortURL.length < 1 || URLIsChanged){
         	if(window.gapi === undefined){
         		$.getScript("https://apis.google.com/js/client.js?onload=initGoogleAPI");
         	}
         	else{
-        		o.shorturlCallback();
+        		o.shorturlCallback();        		
         	}	        	
-        }else{
+        }else{        	
         	$outputLink.val(shortURL);
+        	hideLoadingMsg();
         }	    
 	}
 
 	o.resetUrl = function(){
-		$outputLink.val(originURL);
+		$outputLink.val(originURL);		
 	}
 
 	o.shorturlCallback = function(){
@@ -84,12 +87,22 @@ var urlHandler = (function(o){
 				'resource': {'longUrl': originURL}
 			});
 			request.execute(function(response) {					
-				shortURL = response.id;
-				console.log(shortURL);
+				shortURL = response.id;				
 				URLIsChanged = false;
 				$outputLink.val(shortURL);
+				hideLoadingMsg();
 			});
 		});
+	}
+
+	var showLoadingMsg = function(){
+		$outputLink.prop('disabled', true);	
+		$loadingMsg.show();
+	}
+
+	var hideLoadingMsg = function(){
+		$outputLink.prop('disabled', false).focus().select();
+		$loadingMsg.hide();
 	}
 
 	o.output = function(){

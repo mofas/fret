@@ -22,38 +22,19 @@ var main = (function(o){
 		$("#saveImageButton").on("click" , o.saveAsImage);
 		$("#outputURLButton").on("click" , o.output);
 		$("#shorturl").on("mousedown" , o.shortUrlEvent);
+		$outputLinkWrap.find(".close").on("click" , hidenOutputEvent);
 	}
 
 	o.shortUrlEvent = function(){		
 		if (!$(this).is(':checked')) {
-	        $(this).trigger("change");
-	        //Short it
-	        urlHandler.shortUrl();
+	        $(this).trigger("change");	        
+	        urlHandler.shortUrl();	        
 	    }
-	    else{
-	    	//Reset it 
-	    	urlHandler.resetUrl();
+	    else{	    	
+	    	urlHandler.resetUrl();	    	
 	    }	    
 	}	
 
-	/**
-	o.shorturlCallback = function(){
-		gapi.client.load('urlshortener', 'v1', function(){
-			var request = gapi.client.urlshortener.url.insert({
-				'resource': {'longUrl': urlObj.origin}           					
-			});
-			request.execute(function(response) {          					
-					var shorturl = response.id;
-					console.log(shorturl);
-					urlObj.short = shorturl;	        				
-				urlObj.isChange = false;
-				$outputLink.val(urlObj.short);
-			});
-		});
-	}
-	**/
-	
-	
 	var bindHideOutputEvent = function(){
 		$chordDiagram.add($chordList).one("click" , hidenOutputEvent);
 	}
@@ -72,7 +53,8 @@ var main = (function(o){
 		chord_diagram.init($strings , $muteButtonWrap);
 
 		var $outputLink = $("#outputLink");
-		urlHandler.init($outputLink);
+		var $loadingMsg = $outputLinkWrap.find(".loadingMsg");
+		urlHandler.init($outputLink , $loadingMsg);
 		urlHandler.parseNoteByURL();
 		bindEvent();
 	}	
@@ -81,11 +63,13 @@ var main = (function(o){
 		chord_collection.outputCollectionImage();
 	}
 	
-	o.output = function(){				
+	o.output = function(){		
+		if($outputLinkWrap.css('visibility') == 'visible')
+			return;		
 		var url = urlHandler.output();
 		$outputLinkWrap.css({visibility: 'visible'});
 		bindHideOutputEvent();
-		$outputLink.val(url);
+		$outputLink.val(url).focus().select();
 	}	
 
 	o.add = function(){				

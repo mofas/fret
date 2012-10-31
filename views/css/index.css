@@ -311,6 +311,23 @@ body{
 	border-radius: 5px;
 	margin-right: 60px;
 	visibility: hidden;
+	position: relative;
+	background: #fff;
+	box-shadow: 1px 1px 4px 0 rgba(0,0,0,0.2);
+}
+
+.outputLinkWrap .loadingMsg{
+	position: absolute;
+	left: 32%;
+	top: 8px;
+	display:none;
+}
+
+.outputLinkWrap .close{
+	position: absolute;
+	right: 2%;
+	top: 8px;	
+	cursor: pointer;
 }
 
 #shorturl{
@@ -325,12 +342,16 @@ body{
 
 #outputLink{
 	margin: 5px 0;
-	padding: 5px 10px;
-	font-size: 20px;
+	padding: 8px 10px;
+	font-size: 14px;
 	width: 300px;
 	display: block;
 	border-radius: 5px;
 	border: 1px solid #aaa;
+}
+
+#outputLink:focus{
+	border: 1px solid #DBB800;
 }
 
 #chordTitle{
