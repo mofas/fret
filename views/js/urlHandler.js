@@ -24,7 +24,7 @@ var urlHandler = (function(o){
 
 	o.parseNoteByURL = function(){		
 		var param =  window.location.href.split("?")[1] , 
-			collection , strArray , intArray , diagramArray , noteInfo;
+			chordName , collection , strArray , intArray , diagramArray , noteInfo;
 		//chord collection
 		if(param === undefined){
 			chord_diagram.setoutputArray([0,0,0,0,0,0]);
@@ -32,6 +32,20 @@ var urlHandler = (function(o){
 			return;
 		}
 
+		collection = param.split("&").slice(1);
+		for(var i =0; i < collection.length ;i++){
+			chordName = decodeURI(collection[i].split("=")[0]);
+			strArray = collection[i].split("=")[1];
+			intArray = new Array();
+			for(var j=0;j < strArray.length;j++){
+				var index = isNaN(parseInt(strArray[j] , 10)) ? -1 : parseInt(strArray[j] , 10);								
+				intArray.push(index);				
+			}										
+			
+			main.addByArray(chordName , intArray);
+		}
+
+		/**
 		collection = param.split("&c=").slice(1);				
 		for(var i =0; i < collection.length ;i++){
 			strArray = collection[i].split("");
@@ -43,6 +57,7 @@ var urlHandler = (function(o){
 			chord_diagram.setoutputArray(intArray);			
 			main.addByArray(intArray);
 		}
+		**/
 		
 		noteInfo = param.substring(param.indexOf("note=")+5 , param.indexOf("note=")+11);
 		diagramArray = new Array(6);

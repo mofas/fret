@@ -16,9 +16,10 @@
 }
 
 #chordList li{
-	margin-left: 20px;
-	width: 320px;	
-	height: 240px;
+	margin-left: 10px;
+	width: 330px;
+	height: 230px;
+	padding-top: 20px;
 	float:left;
 }
 

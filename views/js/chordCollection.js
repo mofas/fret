@@ -6,14 +6,15 @@ var chord_collection = (function(o){
 	var chordCollection = [];	
 	var uuID = 0;
 	//chordObj
-    var chordObj = function(canvas , fingerIndex){
+    var chordObj = function(name , canvas , fingerIndex){
 	    this.index = uuID++;
+	    this.name = name;
 	    this.canvas = canvas;
 	    this.fingerIndex = fingerIndex;
 	};
 
-	o.add = function(canvas , fingerIndex){
-		var newObj = new chordObj(canvas , fingerIndex);
+	o.add = function(name, canvas , fingerIndex){
+		var newObj = new chordObj(name , canvas , fingerIndex);
 		chordCollection.push(newObj);
 		return newObj.index;
 	}
@@ -36,10 +37,11 @@ var chord_collection = (function(o){
 		}
 	}
 
-	o.update = function(uuID , canvas , fingerIndex){
+	o.update = function(uuID , name , canvas , fingerIndex){
 		var length = chordCollection.length;
 		while(length--){
 			if(chordCollection[length].index == uuID){
+				chordCollection[length].name = name;
 				chordCollection[length].canvas = canvas;
 				chordCollection[length].fingerIndex = fingerIndex;
 			}
@@ -83,12 +85,22 @@ var chord_collection = (function(o){
 		var length = chordCollection.length;
 		var fingerIndex , outputURLFragment = [] , outputURL=[];		
 		for(var i = 0; i < length ;i++){
-			outputURLFragment=["&c="];
-			fingerIndex = chordCollection[i].fingerIndex;			
+			outputURLFragment=["&"];
+			outputURLFragment.push(encodeURIComponent(chordCollection[i].name));
+			outputURLFragment.push("=");
+			fingerIndex = chordCollection[i].fingerIndex;
 			for(var j = 0; j < fingerIndex.length ;j++){				
 				outputURLFragment.push(fingerIndexMap[fingerIndex[j]+1]);				
-			}			
+			}
+			/**
+			outputURLFragment=["&c="];
+			fingerIndex = chordCollection[i].fingerIndex;
+			for(var j = 0; j < fingerIndex.length ;j++){				
+				outputURLFragment.push(fingerIndexMap[fingerIndex[j]+1]);				
+			}
+			**/
 			outputURL.push(outputURLFragment.join("")); 
+
 		}		
 		return outputURL.join("");
 	}

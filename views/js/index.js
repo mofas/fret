@@ -6,7 +6,7 @@ $(function(){
 var main = (function(o){
 
 	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
-	var $chordDiagram , $chordList , $outputLinkWrap, $outputLink ,		
+	var $chordDiagram , $chordList , $outputLinkWrap, $outputLink ,	$chordTitleInput;	
 		inputMode = 0;
 
 	var bindEvent = function(){
@@ -54,6 +54,7 @@ var main = (function(o){
 
 		var $outputLink = $("#outputLink");
 		var $loadingMsg = $outputLinkWrap.find(".loadingMsg");
+		$chordTitleInput = $("#chordTitle");
 		urlHandler.init($outputLink , $loadingMsg);
 		urlHandler.parseNoteByURL();
 		bindEvent();
@@ -74,12 +75,13 @@ var main = (function(o){
 
 	o.add = function(){				
 		var outputArray = chord_diagram.getOutputArray();
-		o.addByArray(outputArray);
+		var name = $chordTitleInput.val();
+		o.addByArray(name , outputArray);
 	}
 
-	o.addByArray = function(outputArray){		
-		canvas_chord_diagram.setFingerIndex(outputArray);
-		var index = chord_collection.add(canvas_chord_diagram.getCanvas() , outputArray.slice());
+	o.addByArray = function(name , outputArray){		
+		canvas_chord_diagram.setFingerIndex(name , outputArray);
+		var index = chord_collection.add(name , canvas_chord_diagram.getCanvas() , outputArray.slice());
 		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
 							+'<a class="button delete" href="javascript:null;" onclick="main.delete(this , '+index+');">刪除</a>'
 		var fragmentHtml = $('<li class="chordItem"></li>');
@@ -90,6 +92,7 @@ var main = (function(o){
 
 	o.edit = function(obj , id){
 		var chordObj = chord_collection.get(id);
+		$chordTitleInput.val(chordObj.name);
 		chord_diagram.setoutputArray(chordObj.fingerIndex);
 		$("#chordList li.currentEdit").removeClass("currentEdit");
 		$(obj).parent("li").addClass("currentEdit");
@@ -100,8 +103,9 @@ var main = (function(o){
 
 	o.update = function(){
 		var outputArray = chord_diagram.getOutputArray();
-		canvas_chord_diagram.setFingerIndex(outputArray);
-		chord_collection.update(editTargetId , canvas_chord_diagram.getCanvas() , outputArray);
+		var name = $chordTitleInput.val();
+		canvas_chord_diagram.setFingerIndex(name , outputArray);
+		chord_collection.update(editTargetId , name , canvas_chord_diagram.getCanvas() , outputArray);
 		$("#chordList li.currentEdit").find("canvas").remove();
 		$("#chordList li.currentEdit").prepend(canvas_chord_diagram.getCanvas());
 		editTargetId = null;
@@ -119,6 +123,7 @@ var main = (function(o){
 
 	o.cancel = function(){
 		chord_diagram.setoutputArray([0,0,0,0,0,0]);
+		$chordTitleInput.val("");
 		chord_diagram.parseNote();
 		editTargetId = null;
 		$("#chordList li").removeClass("currentEdit");

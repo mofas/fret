@@ -200,6 +200,10 @@ body{
 	top: 112px;
 }
 
+.inlay.inlay-15{
+	left: 656px;
+}
+
 .fret-bar{
 	float:left;
 	width: 5px;
@@ -394,6 +398,7 @@ body{
 }
 
 #chordTitle{
+	width: 120px;
 	font-size: 22px;
 	line-height: 30px;
 	border: 1px solid #aaa;

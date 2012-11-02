@@ -3,6 +3,7 @@
 var canvas_chord_diagram = (function(o){
 
 	var canvas,ctx,W,H,
+		chordName,
 		fingerIndex,first_fret=24, last_fret=0, 
 		fretDiff,fretW;
 
@@ -21,12 +22,23 @@ var canvas_chord_diagram = (function(o){
 		ctx.stroke();
 	}
 
-	function drawChord(){				
+	function drawChordName(){
+		ctx.font = 'italic bold 20px sans-serif';
+		ctx.textBaseline = 'bottom';
+		ctx.fillStyle = "#333"
+		if(chordName === null || chordName.length < 1){
+			chordName = "Chord" + fingerIndex.join("");
+		}
+		ctx.fillText(chordName , 160-chordName.length*5 , 20);	
+		
+	}
+
+	function drawChord(){
 		var position = 30 + 0.5*fretW;
 
 		ctx.font = 'italic bold 20px sans-serif';
 		ctx.textBaseline = 'bottom';
-		ctx.fillStyle = "#333"
+		ctx.fillStyle = "#333";
 		if(first_fret > 1){
 			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);			
 			ctx.beginPath();
@@ -100,6 +112,7 @@ var canvas_chord_diagram = (function(o){
 		}
 		fretW = 280/fretDiff;
 		drawBasicLayout();
+		drawChordName();
 		drawChord();
 	}
 
@@ -130,8 +143,9 @@ var canvas_chord_diagram = (function(o){
 		saveFile(strData.replace("image/png", strDownloadMime));
 	}
 
-	o.setFingerIndex = function(indexArray){		
+	o.setFingerIndex = function(name , indexArray){
 		if(indexArray instanceof Array && indexArray.length == 6){
+			chordName = name;
 			fingerIndex = indexArray;
 			reDraw();
 		}		
