@@ -28,6 +28,7 @@ var canvas_chord_diagram = (function(o){
 		ctx.fillStyle = "#333"
 		if(chordName === null || chordName.length < 1){
 			chordName = "Chord" + fingerIndex.join("");
+			chordName = chordName.replace(/\-1/g , "-");
 		}
 		ctx.fillText(chordName , 160-chordName.length*5 , 20);	
 		
@@ -40,7 +41,7 @@ var canvas_chord_diagram = (function(o){
 		ctx.textBaseline = 'bottom';
 		ctx.fillStyle = "#333";
 		if(first_fret > 1){
-			ctx.fillText(first_fret , 25 + 0.5*fretW , 27);			
+			ctx.fillText(first_fret , 15 + 0.5*fretW , 27);			
 			ctx.beginPath();
 			ctx.moveTo(26, 33);
 			ctx.lineTo(26, 157);
@@ -61,9 +62,10 @@ var canvas_chord_diagram = (function(o){
 			if(fingerIndex[i] > 0){
 				ctx.beginPath();
 				position = 300 - 0.5*fretW - ((last_fret - fingerIndex[i] + 1)*fretW);				
-				if(first_fret > 1 || (first_fret = 1 && fretDiff > 4)){
+				console.log(first_fret , last_fret , fretDiff);
+				if(first_fret > 1 || (first_fret = 1 && fretDiff >= 4)){
 					position += fretW;					
-				}
+				}				
 				ctx.arc(position, 35+i*24, 10, 0, Math.PI*2 , false); 
 				ctx.fillStyle = "#333";		
 				ctx.fill();
@@ -102,7 +104,7 @@ var canvas_chord_diagram = (function(o){
 		}
 		fretDiff = last_fret - first_fret + 1;
 		if(last_fret < 4){
-			last_fret = 3;
+			last_fret = 4;
 			first_fret = 1;
 			fretDiff = 4;
 		}
