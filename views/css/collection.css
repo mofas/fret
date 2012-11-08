@@ -15,9 +15,8 @@
 	padding: 0;
 }
 
-#chordList li{
-	margin-left: 10px;
-	width: 330px;
+#chordList li{	
+	width: 255px;
 	height: 230px;
 	padding-top: 20px;
 	float:left;

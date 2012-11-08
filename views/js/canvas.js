@@ -2,7 +2,7 @@
 
 var canvas_chord_diagram = (function(o){
 
-	var canvas,ctx,W,H,
+	var canvas,ctx,W,H,diagramW,
 		chordName,
 		fingerIndex,first_fret=24, last_fret=0, 
 		fretDiff,fretW;
@@ -12,12 +12,12 @@ var canvas_chord_diagram = (function(o){
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = "#333";
 		for(var i = 0 ; i < 6 ; i++){		
-			ctx.moveTo(25, 35+i*24);
-			ctx.lineTo(300, 35+i*24);
+			ctx.moveTo(22, 35+i*24);
+			ctx.lineTo(diagramW, 35+i*24);
 		}		
 		for(var i = 0; i < fretDiff ; i++){
-			ctx.moveTo(300-i*fretW, 33);
-			ctx.lineTo(300-i*fretW, 157);
+			ctx.moveTo(diagramW-i*fretW, 33);
+			ctx.lineTo(diagramW-i*fretW, 157);
 		}
 		ctx.stroke();
 	}
@@ -30,12 +30,12 @@ var canvas_chord_diagram = (function(o){
 			chordName = "Chord" + fingerIndex.join("");
 			chordName = chordName.replace(/\-1/g , "-");
 		}
-		ctx.fillText(chordName , 160-chordName.length*5 , 20);	
+		ctx.fillText(chordName , diagramW/2 + 10 - chordName.length*5 , 20);	
 		
 	}
 
 	function drawChord(){
-		var position = 30 + 0.5*fretW;
+		var position;
 
 		ctx.font = 'italic bold 20px sans-serif';
 		ctx.textBaseline = 'bottom';
@@ -43,8 +43,8 @@ var canvas_chord_diagram = (function(o){
 		if(first_fret > 1){
 			ctx.fillText(first_fret , 15 + 0.5*fretW , 27);			
 			ctx.beginPath();
-			ctx.moveTo(26, 33);
-			ctx.lineTo(26, 157);
+			ctx.moveTo(21, 33);
+			ctx.lineTo(21, 157);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 3;
 			ctx.stroke();
@@ -61,8 +61,7 @@ var canvas_chord_diagram = (function(o){
 		for(var i=0; i < fingerIndex.length ;i++){			
 			if(fingerIndex[i] > 0){
 				ctx.beginPath();
-				position = 300 - 0.5*fretW - ((last_fret - fingerIndex[i] + 1)*fretW);				
-				console.log(first_fret , last_fret , fretDiff);
+				position = diagramW - 0.5*fretW - ((last_fret - fingerIndex[i] + 1)*fretW);								
 				if(first_fret > 1 || (first_fret = 1 && fretDiff >= 4)){
 					position += fretW;					
 				}				
@@ -112,7 +111,9 @@ var canvas_chord_diagram = (function(o){
 			last_fret = first_fret + 3;
 			fretDiff = 4;
 		}
-		fretW = 280/fretDiff;
+		diagramW = W-20;
+
+		fretW = (diagramW-20)/fretDiff; //15 mean left
 		drawBasicLayout();
 		drawChordName();
 		drawChord();
@@ -120,7 +121,7 @@ var canvas_chord_diagram = (function(o){
 
 	function initCanvas(){
 		canvas = document.createElement('canvas');
-		canvas.width = 320; 
+		canvas.width = 250; 
 		canvas.height = 180;
 		//TEST CODE
 		//$('body').append(canvas);

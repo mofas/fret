@@ -55,9 +55,9 @@ var chord_collection = (function(o){
 	o.outputCollectionImage = function(){
 		var length = chordCollection.length;
 
-		var canvasWidth = length*320 , canvasHeight = Math.ceil(length/3)*180 + 20;
-		if(canvasWidth > 960 )
-			canvasWidth = 960;
+		var canvasWidth = length*260 , canvasHeight = Math.ceil(length/3)*180 + 20;
+		if(canvasWidth > 1040 )
+			canvasWidth = 1040;
 
 		canvasWidth += 40;
 		var outputCanvas = document.createElement('canvas');		
@@ -70,7 +70,7 @@ var chord_collection = (function(o){
 		var imageData;		
 		for(var i = 0 ; i < length ; i++){
 			imageData = chordCollection[i].canvas;
-			outputCanvasCtx.drawImage(imageData,(i%3)*320+20 ,Math.floor(i/3)*180+10);
+			outputCanvasCtx.drawImage(imageData,(i%4)*260+30 ,Math.floor(i/4)*180+10);
 		}
 		var strDownloadMime = "image/octet-stream";
 		var saveFile = function(strData) {
