@@ -26,16 +26,23 @@ var zoomTool =(function(o){
 
 	var zoomIn = function(){
 		zoomScale += 0.2;
-		$zoomTarget.css({ zoom : zoomScale});
+		$zoomTarget.css({ 
+			zoom : zoomScale,
+			'-moz-transform': 'scale('+zoomScale+')',
+			'-moz-transform-origin': '0 0',
+		});
 	}
 
 	var zoomOut = function(){
 		if(zoomScale > 1){
 			zoomScale -= 0.2;
-			$zoomTarget.css({ zoom : zoomScale});
+			$zoomTarget.css({ 
+				zoom : zoomScale,
+				'-moz-transform': 'scale('+zoomScale+')',
+				'-moz-transform-origin': '0 0',
+			});
 		}			
 	}
-
 
 	return o;
 

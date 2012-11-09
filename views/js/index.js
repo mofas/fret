@@ -82,8 +82,8 @@ var main = (function(o){
 	o.addByArray = function(name , outputArray){		
 		canvas_chord_diagram.setFingerIndex(name , outputArray);
 		var index = chord_collection.add(name , canvas_chord_diagram.getCanvas() , outputArray.slice());
-		var buttonHtml = '<a class="button" href="javascript:null;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
-							+'<a class="button delete" href="javascript:null;" onclick="main.delete(this , '+index+');">刪除</a>'
+		var buttonHtml = '<a class="button" href="javascript:;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
+							+'<a class="button delete" href="javascript:;" onclick="main.delete(this , '+index+');">刪除</a>'
 		var fragmentHtml = $('<li class="chordItem"></li>');
 		fragmentHtml.append(canvas_chord_diagram.getCanvas());
 		fragmentHtml.append($(buttonHtml));
