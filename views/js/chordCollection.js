@@ -53,30 +53,36 @@ var chord_collection = (function(o){
 	}
 
 	o.outputCollectionImage = function(){
-		var length = chordCollection.length;
+		var length = chordCollection.length,
+			canvasWidth,
+			outputCanvas,
+			outputCanvasCtx,
+			imageData;
+			
+		var saveFile = function(strData) {
+			document.location.href = strData;
+		}
 
-		var canvasWidth = length*260 , canvasHeight = Math.ceil(length/3)*180 + 20;
+		canvasWidth = length*260 , canvasHeight = Math.ceil(length/3)*180 + 20;
 		if(canvasWidth > 1040 )
 			canvasWidth = 1040;
 
 		canvasWidth += 40;
-		var outputCanvas = document.createElement('canvas');		
+		outputCanvas = document.createElement('canvas');		
 		outputCanvas.width = canvasWidth; 
 		outputCanvas.height = canvasHeight;
-		var outputCanvasCtx = outputCanvas.getContext('2d');		
+		outputCanvasCtx = outputCanvas.getContext('2d');		
 
 		//Test Code
 		//$('body').append(outputCanvas);
-		var imageData;		
+		imageData;		
 		for(var i = 0 ; i < length ; i++){
 			imageData = chordCollection[i].canvas;
 			outputCanvasCtx.drawImage(imageData,(i%4)*260+30 ,Math.floor(i/4)*180+10);
 		}
-		var strDownloadMime = "image/octet-stream";
-		var saveFile = function(strData) {
-			document.location.href = strData;
-		}
-		var strData = outputCanvas.toDataURL("image/png");
+		strDownloadMime = "image/octet-stream";
+		
+		strData = outputCanvas.toDataURL("image/png");
 		saveFile(strData.replace("image/png", strDownloadMime));
 	}
 
@@ -92,13 +98,6 @@ var chord_collection = (function(o){
 			for(var j = 0; j < fingerIndex.length ;j++){				
 				outputURLFragment.push(fingerIndexMap[fingerIndex[j]+1]);				
 			}
-			/**
-			outputURLFragment=["&c="];
-			fingerIndex = chordCollection[i].fingerIndex;
-			for(var j = 0; j < fingerIndex.length ;j++){				
-				outputURLFragment.push(fingerIndexMap[fingerIndex[j]+1]);				
-			}
-			**/
 			outputURL.push(outputURLFragment.join("")); 
 
 		}		

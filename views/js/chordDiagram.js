@@ -1,15 +1,13 @@
 
 var chord_diagram = (function(o){
 
-	var $strings;
-	var $muteButtonWrap;
-	var fingerIconFraHtml = '<div class="finger"></div>';
-	
-	var noteArray = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
+	var $strings,
+		$muteButtonWrap,
+		fingerIconFraHtml = '<div class="finger"></div>',
+		noteArray = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],
+		openStringNoteIndex = [4,11,7,2,9,4],
+		outputArray = new Array(6);
 	//var noteArray2 = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
-	var openStringNoteIndex = [4,11,7,2,9,4];
-	var outputArray = new Array(6);
-
 
 	var getNote = function(stringIndex , fretIndex){
 		var initNote = (openStringNoteIndex[stringIndex] + fretIndex +1 ) % 12;		
@@ -40,15 +38,17 @@ var chord_diagram = (function(o){
 
 	var setFingerEvent	=	function(){		
 		$strings.on("click" , ".fretWrap" , function(){			
-			var $this = $(this);
-			var $sameString = $this.parent(".string");
-			var stringIndex = $sameString.index('.string');
-			var fretIndex = $(this).index();
+			var $this = $(this),
+				$sameString = $this.parent(".string"),
+				stringIndex = $sameString.index('.string'),
+				fretIndex = $(this).index()
+				note = getNote(stringIndex , fretIndex-1);
+
 			if($sameString.hasClass("hide")){				
 				$sameString.removeClass("hide");				
-			}						
-			$muteButtonWrap.find(".muteButton").eq(stringIndex).addClass("disable");			
-			var note = getNote(stringIndex , fretIndex-1);	
+			}
+
+			$muteButtonWrap.find(".muteButton").eq(stringIndex).addClass("disable");
 			$(".noteArea .note").eq(stringIndex).html(note);
 			$sameString.find(".finger").hide();							
 			$(this).find(".finger").show();

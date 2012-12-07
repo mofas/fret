@@ -9,10 +9,10 @@ window.initGoogleAPI	= function(){
 
 
 var urlHandler = (function(o){	
-	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
-	var $outputLink , $loadingMsg;
-
-	var originURL = "" , 
+	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"],
+		$outputLink,
+		$loadingMsg,
+		originURL = "" , 
 		shortURL = "" ,  
 		URLIsChanged = false;
 
@@ -24,7 +24,13 @@ var urlHandler = (function(o){
 
 	o.parseNoteByURL = function(){		
 		var param =  window.location.href.split("?")[1] , 
-			chordName , collection , strArray , intArray , diagramArray , noteInfo;
+			chordName,
+			collection,
+			strArray,
+			intArray,
+			diagramArray,
+			noteInfo;
+
 		//chord collection
 		if(param === undefined){
 			chord_diagram.setoutputArray([0,0,0,0,0,0]);
@@ -44,26 +50,12 @@ var urlHandler = (function(o){
 			
 			main.addByArray(chordName , intArray);
 		}
-
-		/**
-		collection = param.split("&c=").slice(1);				
-		for(var i =0; i < collection.length ;i++){
-			strArray = collection[i].split("");
-			intArray = new Array();
-			for(var j=0;j < strArray.length;j++){
-				var index = isNaN(parseInt(strArray[j] , 10)) ? -1 : parseInt(strArray[j] , 10);								
-				intArray.push(index);				
-			}										
-			chord_diagram.setoutputArray(intArray);			
-			main.addByArray(intArray);
-		}
-		**/
 		
 		noteInfo = param.substring(param.indexOf("note=")+5 , param.indexOf("note=")+11);
 		diagramArray = new Array(6);
 		if(noteInfo.length > 0 ){						
-			var fingerIndexString = fingerIndexMap.join("");
-			var rawArray = noteInfo.split("");
+			var fingerIndexString = fingerIndexMap.join(""),
+				rawArray = noteInfo.split("");
 			for(var i = 0 ; i < rawArray.length ; i++){
 				diagramArray[i] = fingerIndexString.indexOf(rawArray[i])-1;
 			}
@@ -121,15 +113,16 @@ var urlHandler = (function(o){
 	}
 
 	o.output = function(){
-		var outputString = "note=";
-		var outputArray = chord_diagram.getOutputArray();
+		var outputString = "note=",
+			outputArray = chord_diagram.getOutputArray();
+			
 		for(var i = 0 ,arrIndex = outputArray.length ; i < arrIndex ; i++){
 			outputString += fingerIndexMap[outputArray[i]+1];
 		}
 		//collection
 		outputString += chord_collection.outputCollectionURL();
-		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length;
-		var url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;
+		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length,
+			url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;
 		checkURLIsChanged(url);		
 		return url;
 	}

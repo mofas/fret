@@ -6,8 +6,13 @@ $(function(){
 var main = (function(o){
 
 	var fingerIndexMap = ["-","0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f","g","h","i","j","k","l","m","n","o"];
-	var $chordDiagram , $chordList , $outputLinkWrap, $outputLink ,	$chordTitleInput;	
-		inputMode = 0;
+	var $chordDiagram,
+	 	$chordList,
+	 	$outputLinkWrap,
+	 	$outputLink,
+	 	$chordTitleInput,
+		inputMode = 0,
+		editTargetId = null;
 
 	var bindEvent = function(){
 		$chordList = $("#chordList");
@@ -23,17 +28,21 @@ var main = (function(o){
 		$("#outputURLButton").on("click" , o.output);
 		$("#shorturl").on("mousedown" , o.shortUrlEvent);
 		$outputLinkWrap.find(".close").on("click" , hidenOutputEvent);
+	}	
+
+	var editMode = function(){
+		inputMode = 1;
+		$("#addButton").hide();
+		$("#updateButton").show();
+		$("#cancelButton").show();
 	}
 
-	o.shortUrlEvent = function(){		
-		if (!$(this).is(':checked')) {
-	        $(this).trigger("change");	        
-	        urlHandler.shortUrl();	        
-	    }
-	    else{	    	
-	    	urlHandler.resetUrl();	    	
-	    }	    
-	}	
+	var addMode = function(){
+		inputMode = 0;
+		$("#addButton").show();
+		$("#updateButton").hide();
+		$("#cancelButton").hide();
+	}
 
 	var bindHideOutputEvent = function(){
 		$chordDiagram.add($chordList).one("click" , hidenOutputEvent);
@@ -46,14 +55,26 @@ var main = (function(o){
 		$("#shorturl").attr('checked', false);
 	}
 
-	o.init	=	function(){
-		var $strings = $(".string");
-		var $muteButtonWrap = $(".mutebuttonWrap");
-		$outputLinkWrap = $(".outputLinkWrap");
-		chord_diagram.init($strings , $muteButtonWrap);
+	o.shortUrlEvent = function(){		
+		if (!$(this).is(':checked')) {
+	        $(this).trigger("change");	        
+	        urlHandler.shortUrl();	        
+	    }
+	    else{	    	
+	    	urlHandler.resetUrl();	    	
+	    }	    
+	}	
 
-		var $outputLink = $("#outputLink");
-		var $loadingMsg = $outputLinkWrap.find(".loadingMsg");
+	o.init	=	function(){
+		$outputLinkWrap = $(".outputLinkWrap");
+		$outputLink = $("#outputLink");
+
+		var $strings = $(".string"),
+			$muteButtonWrap = $(".mutebuttonWrap"),	
+			$loadingMsg = $outputLinkWrap.find(".loadingMsg");
+		
+		chord_diagram.init($strings , $muteButtonWrap);
+		
 		$chordTitleInput = $("#chordTitle");
 		urlHandler.init($outputLink , $loadingMsg);
 		urlHandler.parseNoteByURL();
@@ -74,17 +95,18 @@ var main = (function(o){
 	}	
 
 	o.add = function(){				
-		var outputArray = chord_diagram.getOutputArray();
-		var name = $chordTitleInput.val();
+		var outputArray = chord_diagram.getOutputArray(),
+			name = $chordTitleInput.val();
 		o.addByArray(name , outputArray);
 	}
 
 	o.addByArray = function(name , outputArray){		
 		canvas_chord_diagram.setFingerIndex(name , outputArray);
-		var index = chord_collection.add(name , canvas_chord_diagram.getCanvas() , outputArray.slice());
-		var buttonHtml = '<a class="button" href="javascript:;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
-							+'<a class="button delete" href="javascript:;" onclick="main.delete(this , '+index+');">刪除</a>'
-		var fragmentHtml = $('<li class="chordItem"></li>');
+		var index = chord_collection.add(name , canvas_chord_diagram.getCanvas() , outputArray.slice()),
+			buttonHtml = '<a class="button" href="javascript:;" onclick="javascript:main.edit(this , '+index+');" >編輯</a>'
+							+'<a class="button delete" href="javascript:;" onclick="main.delete(this , '+index+');">刪除</a>',
+			fragmentHtml = $('<li class="chordItem"></li>');
+
 		fragmentHtml.append(canvas_chord_diagram.getCanvas());
 		fragmentHtml.append($(buttonHtml));
 		$("#chordList").append(fragmentHtml);
@@ -102,8 +124,9 @@ var main = (function(o){
 	}
 
 	o.update = function(){
-		var outputArray = chord_diagram.getOutputArray();
-		var name = $chordTitleInput.val();
+		var outputArray = chord_diagram.getOutputArray(),
+			name = $chordTitleInput.val();
+			
 		canvas_chord_diagram.setFingerIndex(name , outputArray);
 		chord_collection.update(editTargetId , name , canvas_chord_diagram.getCanvas() , outputArray);
 		$("#chordList li.currentEdit").find("canvas").remove();
@@ -130,20 +153,7 @@ var main = (function(o){
 		addMode();
 	}
 
-	var editTargetId = null;
-	var editMode = function(){
-		inputMode = 1;
-		$("#addButton").hide();
-		$("#updateButton").show();
-		$("#cancelButton").show();
-	}
 
-	var addMode = function(){
-		inputMode = 0;
-		$("#addButton").show();
-		$("#updateButton").hide();
-		$("#cancelButton").hide();
-	}
 
 	return o;
 
