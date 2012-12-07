@@ -425,3 +425,20 @@ body{
 	margin: 2px 10px 2px 38px;
 	border-radius: 5px;	
 }
+
+/***********************************
+**   suggestChordName
+************************************/
+#suggestChordName{
+	height: 24px;
+	width: 100%;
+}
+
+#suggestChordName a{
+	display: block;
+	margin-right: 20px;
+	float: left;
+	text-decoration: none;
+	color: #333;
+	font-size: 24px;
+}

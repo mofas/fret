@@ -21,12 +21,14 @@ var main = (function(o){
 		$chordList.on("click", ".chordItem" , function(){			
 			$(this).siblings().removeClass("selected").end().addClass("selected");			
 		});
+
+		$chordTitleInput.on("focus" , o.queryChordName );
 		$("#addButton").on("click" , o.add);
 		$("#updateButton").on("click" , o.update);
 		$("#cancelButton").on("click" , o.cancel);
 		$("#saveImageButton").on("click" , o.saveAsImage);
-		$("#outputURLButton").on("click" , o.output);
-		$("#shorturl").on("mousedown" , o.shortUrlEvent);
+		$("#outputURLButton").on("click" , o.output);			
+		$("#shorturl").on("mousedown" , o.shortUrlEvent);		
 		$outputLinkWrap.find(".close").on("click" , hidenOutputEvent);
 	}	
 
@@ -153,6 +155,16 @@ var main = (function(o){
 		addMode();
 	}
 
+	o.queryChordName = function(){
+		var outputArray = chord_diagram.getOutputArray();
+		console.log(outputArray);
+		var suggestionName = chordName.queryChordName(outputArray);
+		var htmlFragment = "";
+		for(var i =0; i<suggestionName.length ; i++){
+			htmlFragment += '<a href="#">' + suggestionName[i] + '</a>';
+		}
+		$("#suggestChordName").html(htmlFragment);
+	}
 
 
 	return o;

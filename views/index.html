@@ -14,6 +14,7 @@
     <script type="text/javascript" src="js/canvas.js"></script>
     <script type="text/javascript" src="js/chordCollection.js"></script>
     <script type="text/javascript" src="js/urlHandler.js"></script>
+    <script type="text/javascript" src="js/chordName.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <script type="text/javascript" src="js/zoomTool.js"></script>
   </head>
@@ -487,10 +488,11 @@
       </div>
 
       <div id="buttonPanel">
-        <input id="chordTitle" type="text" placeholder="命名和絃" value="">
+        <input id="chordTitle" type="text" placeholder="命名和絃" value="">        
         <a id="addButton" class="button" href="javascript:;">新增</a>
         <a id="updateButton" class="button" href="javascript:;">儲存</a>
         <a id="cancelButton" class="button" href="javascript:;">取消</a>
+        <div id="suggestChordName"></div>
       </div>
 
       <div id="chordListWrap">    
