@@ -158,11 +158,18 @@ var main = (function(o){
 	o.queryChordName = function(){
 		var outputArray = chord_diagram.getOutputArray();		
 		var suggestionName = chordName.queryChordName(outputArray);
+
+		$chordTitleInput.autocomplete({
+            source: suggestionName
+        });
+        
+		/**
 		var htmlFragment = "";
 		for(var i =0; i<suggestionName.length ; i++){
 			htmlFragment += '<a href="#">' + suggestionName[i] + '</a>';
 		}
 		$("#suggestChordName").html(htmlFragment);
+		**/
 	}
 
 
