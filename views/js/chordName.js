@@ -1,3 +1,13 @@
+Array.prototype.remove = function() {
+    var what, a = arguments, L = a.length, ax;
+    while (L && this.length) {
+        what = a[--L];
+        while ((ax = this.indexOf(what)) !== -1) {
+            this.splice(ax, 1);
+        }
+    }
+    return this;
+};
 
 
 var chordName = (function(o){
@@ -152,27 +162,22 @@ var chordName = (function(o){
 		if(scaleMap.length == 2){
 			twoNotesAnalysis();
 		}
-		else if(scaleMap.length == 3){
+
+		scaleMap.remove(7);
+		console.log(scaleMap);
+		
+		if(scaleMap.length == 2){
+			twoNotesAnalysis();
+		}
+		if(scaleMap.length == 3){
 			basicChordAnalysis();
 		}
-		else if(scaleMap.length == 4){
-			//there have 5th note
-			if(scaleMap[2] == 7){
-				scaleMap.splice(2,1);
-				basicChordAnalysis();
-			}
-			else{
-				extensionChordAnalysis();	
-			}			
+		else if(scaleMap.length == 4){													
+			extensionChordAnalysis();				
 		}
 		else if(scaleMap.length == 5){
-			if(scaleMap[2] == 7){
-				scaleMap.splice(2,1);
-				extensionChordAnalysis();
-			}
-			else{
-				fiveNoteAnalysis();	
-			}			
+			extensionChordAnalysis();
+			fiveNoteAnalysis();
 		}
 		//I dont want to handle note > 5
 	}
