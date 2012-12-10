@@ -163,9 +163,8 @@ var chordName = (function(o){
 			twoNotesAnalysis();
 		}
 
-		scaleMap.remove(7);
-		console.log(scaleMap);
-		
+		scaleMap.remove(7);		
+
 		if(scaleMap.length == 2){
 			twoNotesAnalysis();
 		}
@@ -217,7 +216,7 @@ var chordName = (function(o){
 			scaleMap.push(scale);
 		}		
 		scaleMap.sort(function(a,b){return a-b });
-		console.log(scaleMap);
+		//console.log(scaleMap);
 	}
 	
 	o.queryChordName = function(noteArray){
