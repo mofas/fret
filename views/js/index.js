@@ -156,8 +156,7 @@ var main = (function(o){
 	}
 
 	o.queryChordName = function(){
-		var outputArray = chord_diagram.getOutputArray();
-		console.log(outputArray);
+		var outputArray = chord_diagram.getOutputArray();		
 		var suggestionName = chordName.queryChordName(outputArray);
 		var htmlFragment = "";
 		for(var i =0; i<suggestionName.length ; i++){
