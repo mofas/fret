@@ -40,7 +40,7 @@ var urlHandler = (function(o){
 
 		collection = param.split("&").slice(1);
 		for(var i =0; i < collection.length ;i++){
-			chordName = decodeURI(collection[i].split("=")[0]);
+			chordName = decodeURIComponent(collection[i].split("=")[0]);
 			strArray = collection[i].split("=")[1];
 			intArray = new Array();
 			for(var j=0;j < strArray.length;j++){
