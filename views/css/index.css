@@ -430,8 +430,9 @@ body{
 **   suggestChordName
 ************************************/
 #suggestChordName{
-	height: 24px;
-	width: 100%;
+	margin: 20px 0 20px 40px;	
+	width: 680px;
+	min-height: 40px;
 }
 
 #suggestChordName a{
@@ -441,4 +442,13 @@ body{
 	text-decoration: none;
 	color: #333;
 	font-size: 24px;
+	background: #FFFFCA;
+	border: 1px solid rgba(0,0,0,0.2);
+	border-radius: 5px;
+	padding: 5px 10px;
+}
+
+#suggestChordName a:hover{
+	color: #fff;
+	background: #50A345;
 }

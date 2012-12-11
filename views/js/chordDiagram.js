@@ -7,6 +7,7 @@ var chord_diagram = (function(o){
 		noteArray = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"],
 		openStringNoteIndex = [4,11,7,2,9,4],
 		outputArray = new Array(6);
+
 	//var noteArray2 = ["C","Db","D","Eb","E","F","Gb","G","Ab","A","Bb","B"];
 
 	var getNote = function(stringIndex , fretIndex){
@@ -110,17 +111,21 @@ var chord_diagram = (function(o){
 		return outputArray;
 	}
 
-	o.init = function($el1 , $el2){
+	o.init = function($el1 , $el2 , modelChangeEvent){
 		$strings = $el1;
 		$muteButtonWrap = $el2;
-		bindEvent();
+		bindEvent(modelChangeEvent);
 	}
 
-	var bindEvent = function(){
+	var bindEvent = function(modelChangeEvent){
+		//observer
+		$strings.on("click" , modelChangeEvent);
+		$muteButtonWrap.on("click" , ".muteButton" , modelChangeEvent);
 		muteStringEvent();
 		setFingerEvent();
-		setFingerButtonEvent();		
+		setFingerButtonEvent();
 	}	
+
 	
 	o.setoutputArray = function(indexArray){		
 		if(indexArray instanceof Array && indexArray.length == 6){

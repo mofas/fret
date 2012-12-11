@@ -12,13 +12,17 @@ Array.prototype.remove = function() {
 
 var chordName = (function(o){
 
-	var noteMap = [];
-	var scaleMap = [];
-	var bassNoteName = "";
-	var suggestionName = [];
+	var noteMap = [],
+		scaleMap = [],
+		suggestionName = [],
+		bassNoteName = "",
+		rootNoteName = "";
+	var rotatingOrder = 0;
+	var suggestionNameLength = 0;
+	var _callback;
+	var workerTimer = null;
 
-	var rootName = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];
-	var basicChordName = [ " " , "m" , "7" , "dim"];
+	var rootName = ["C","C#","D","D#","E","F","F#","G","G#","A","A#","B"];	
 
 	//C=0,D=2,E=4,F=5,G=7,A=9,B=11
 	//var stringInitScale = [4,9,14,19,23,28];
@@ -28,60 +32,60 @@ var chordName = (function(o){
 		//only handle four note.
 		if(scaleMap[1] == 1){
 			if(scaleMap[2] == 3 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "m7b9");
+				suggestionName.push(rootNoteName + "m7b9");
 			}
 			else if(scaleMap[2] == 4 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "7-9");
-				suggestionName.push(bassNoteName + "7b9");
+				suggestionName.push(rootNoteName + "7-9");
+				suggestionName.push(rootNoteName + "7b9");
 			}
 
 		}
 		else if(scaleMap[1] == 2){
 			if(scaleMap[2] == 4 && scaleMap[3] == 9){
-				suggestionName.push(bassNoteName + "6,9");
+				suggestionName.push(rootNoteName + "6,9");
 			}
 			else if(scaleMap[2] == 4 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "9");
+				suggestionName.push(rootNoteName + "9");
 			}
 			else if(scaleMap[2] == 4 && scaleMap[3] == 11){
-				suggestionName.push(bassNoteName + "maj9");
+				suggestionName.push(rootNoteName + "maj9");
 			}
 
 		}
 		else if(scaleMap[1] == 3){
 			if(scaleMap[2] == 6 && scaleMap[3] == 9){
-				suggestionName.push(bassNoteName + "dim7");
+				suggestionName.push(rootNoteName + "dim7");
 			}
 			else if(scaleMap[2] == 6 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "m7b5");
+				suggestionName.push(rootNoteName + "m7b5");
 			}
 			else if(scaleMap[2] == 4 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "7+9");
-				suggestionName.push(bassNoteName + "7#9");
+				suggestionName.push(rootNoteName + "7+9");
+				suggestionName.push(rootNoteName + "7#9");
 			}
 			else if(scaleMap[2] == 6 && scaleMap[3] == 11){
-				suggestionName.push(bassNoteName + "m11#");
+				suggestionName.push(rootNoteName + "m11#");
 			}
 			else if(scaleMap[2] == 7 && scaleMap[3] == 9){
-				suggestionName.push(bassNoteName + "m6");
+				suggestionName.push(rootNoteName + "m6");
 			}
 
 		}
 		else if(scaleMap[1] == 4){
 			if(scaleMap[2] == 7 && scaleMap[3] == 9){
-				suggestionName.push(bassNoteName + "6");
+				suggestionName.push(rootNoteName + "6");
 			}
 			else if(scaleMap[2] == 5 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "11");
+				suggestionName.push(rootNoteName + "11");
 			}
 			else if(scaleMap[2] == 6 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "7-5");
+				suggestionName.push(rootNoteName + "7-5");
 			}
 			else if(scaleMap[2] == 8 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "aug7");
+				suggestionName.push(rootNoteName + "aug7");
 			}
 			else if(scaleMap[2] == 9 && scaleMap[3] == 10){
-				suggestionName.push(bassNoteName + "13");
+				suggestionName.push(rootNoteName + "13");
 			}
 		}
 
@@ -91,70 +95,70 @@ var chordName = (function(o){
 		//only handle three note
 		if(scaleMap[1] == 3){
 			if(scaleMap[2] == 7){
-				suggestionName.push(bassNoteName + "m");
+				suggestionName.push(rootNoteName + "m");
 			}
 			else if(scaleMap[2] == 6){
-				suggestionName.push(bassNoteName + "dim");	
+				suggestionName.push(rootNoteName + "dim");	
 			}
 			else if(scaleMap[2] == 10){
-				suggestionName.push(bassNoteName + "m7");
+				suggestionName.push(rootNoteName + "m7");
 			}
 			else if(scaleMap[2] == 11){
-				suggestionName.push(bassNoteName + "m_maj7");
+				suggestionName.push(rootNoteName + "m_maj7");
 			}
 		}
 		else if(scaleMap[1] == 2){
 			if(scaleMap[2] == 4){
-				suggestionName.push(bassNoteName + "add9");	
+				suggestionName.push(rootNoteName + "add9");	
 			}			
 		}
 		else if(scaleMap[1] == 4){
 			if(scaleMap[2] == 7){
-				suggestionName.push(bassNoteName + "maj");
+				suggestionName.push(rootNoteName + "maj");
 			}
 			else if(scaleMap[2] == 8){
-				suggestionName.push(bassNoteName + "+"); 
+				suggestionName.push(rootNoteName + "+"); 
 			}			
 			else if(scaleMap[2] == 10){
-				suggestionName.push(bassNoteName + "7");
+				suggestionName.push(rootNoteName + "7");
 			}
 			else if(scaleMap[2] == 11){
-				suggestionName.push(bassNoteName + "maj7");
+				suggestionName.push(rootNoteName + "maj7");
 			}
 		}
 		else if(scaleMap[1] == 5){
 			if(scaleMap[2] == 10){
-				suggestionName.push(bassNoteName + "7sus4");
+				suggestionName.push(rootNoteName + "7sus4");
 			}
 		}
 	}
 
 	var twoNotesAnalysis = function(){
 		if(scaleMap[1] == 3){
-			suggestionName.push(bassNoteName + "m");
+			suggestionName.push(rootNoteName + "m");
 		}			
 		else if(scaleMap[1] == 4){
-			//suggestionName.push(bassNoteName);
+			suggestionName.push(rootNoteName);
 		}			
 		else if(scaleMap[1] == 5){
-			suggestionName.push(bassNoteName + "sus4");
+			suggestionName.push(rootNoteName + "sus4");
 		}			
 		else if(scaleMap[1] == 7){
-			suggestionName.push(bassNoteName + "_powerChord");
+			suggestionName.push(rootNoteName + "_powerChord");
 		}			
 	}
 
 	var fiveNoteAnalysis = function(){
 		if(scaleMap[1] == 2 && scaleMap[2] == 4){
 			if(scaleMap[3] == 5 && scaleMap[4] == 10){
-				suggestionName.push(bassNoteName + "11");
+				suggestionName.push(rootNoteName + "11");
 			}
 			else if(scaleMap[3] == 9 && scaleMap[4] == 10){
-				suggestionName.push(bassNoteName + "13");
+				suggestionName.push(rootNoteName + "13");
 			}
 		}
 		else if(scaleMap[1] == 4 && scaleMap[2] == 5 && scaleMap[3] == 9 && scaleMap[4] == 11){
-			suggestionName.push(bassNoteName + "maj11,13");
+			suggestionName.push(rootNoteName + "maj11,13");
 		}
 	}
 
@@ -163,8 +167,7 @@ var chordName = (function(o){
 			twoNotesAnalysis();
 		}
 
-		scaleMap.remove(7);		
-
+		scaleMap.remove(7);
 		if(scaleMap.length == 2){
 			twoNotesAnalysis();
 		}
@@ -186,11 +189,10 @@ var chordName = (function(o){
 		//sort 		
 		noteMap.sort(function(a,b){return a - b});
 		
-		//get basenote
+		//get bassnote
 		var bassNote = noteMap[0];
 		bassNote = bassNote % 12;		
-		bassNoteName = rootName[bassNote];		
-		suggestionName.push(bassNoteName);
+		bassNoteName = rootName[bassNote];				
 
 		var note;
 		var filterNoteMap = [];
@@ -207,22 +209,58 @@ var chordName = (function(o){
 			if(!isRepeat)
 				filterNoteMap.push(note);
 		}
+		//noteMap is original note map 
+		noteMap = filterNoteMap;
+		rootNoteRotating();
+	}
 
-		scaleMap.push(0);	
-		for(var i=1 ;i<filterNoteMap.length ; i++){
-			var scale = filterNoteMap[i]-filterNoteMap[0];
-			if(scale < 0)
-				scale += 12;
-			scaleMap.push(scale);
-		}		
-		scaleMap.sort(function(a,b){return a-b });
-		//console.log(scaleMap);
+
+	var rootNoteRotating = function(){
+		if(rotatingOrder < noteMap.length){
+			var rotatingMap = noteMap.slice();			
+			for(var r = 0; r < rotatingOrder ;r++){
+				rotatingMap.push(rotatingMap[0]);
+				rotatingMap.shift();
+			}			
+			//record rootNote
+			var rootNote = rotatingMap[0];			
+			rootNote = rootNote % 12;		
+			rootNoteName = rootName[rootNote];
+			scaleMap = [];
+			scaleMap.push(0);	
+			for(var i=1 ;i < rotatingMap.length ; i++){
+				var scale = rotatingMap[i]-rotatingMap[0];
+				if(scale < 0)
+					scale += 12;
+				scaleMap.push(scale);
+			}		
+			scaleMap.sort(function(a,b){return a-b });
+			console.log("scale" , scaleMap);
+
+			chordAnalysis();
+					
+			var currentSuggestionNameLength = suggestionName.length;
+			if(rotatingOrder > 0 && currentSuggestionNameLength > suggestionNameLength){
+				for(var i = suggestionNameLength; i < currentSuggestionNameLength ; i++){
+					suggestionName[i] = suggestionName[i] + "/" + bassNoteName;
+				}
+				suggestionNameLength = currentSuggestionNameLength;
+			}
+
+			rotatingOrder++;
+			workerTimer = setTimeout(arguments.callee , 1);
+
+		}
+		else{
+			if(typeof _callback === 'function'){
+				_callback(suggestionName);
+			}				
+		}
+
 	}
 	
-	o.queryChordName = function(noteArray){
-		suggestionName = [];
-		noteMap = [];
-		scaleMap= [];
+	o.queryChordName = function(noteArray , callback){
+		reset();
 		//noteArray like [0, 0, 3, 3, 0, 1] the first is the highest string
 		//normally get it from chord_diagram.getOutputArray();		
 		var note;
@@ -232,11 +270,22 @@ var chordName = (function(o){
 				noteMap.push(stringInitScale[i] + note);
 			}			
 		}
-		mapNote();
-		chordAnalysis();
-		return suggestionName;
+		mapNote();		
+		_callback = callback;
 	}
 
+	var reset = function(){
+		clearTimeout(workerTimer);
+		suggestionName = [];
+		noteMap = [];
+		scaleMap= [];
+		rotatingOrder = 0;
+		suggestionNameLength = 0;
+	}
+
+	o.getSuggestionName = function(){
+		return suggestionName;
+	}
 
 
 

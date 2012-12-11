@@ -11,18 +11,28 @@ var main = (function(o){
 	 	$outputLinkWrap,
 	 	$outputLink,
 	 	$chordTitleInput,
+	 	$suggestChordNameCollection,
 		inputMode = 0,
 		editTargetId = null;
+
+	var queryChordNameTimer = null;
 
 	var bindEvent = function(){
 		$chordList = $("#chordList");
 		$chordDiagram = $('.chord_diagramWrap');
 		$outputLink = $("#outputLink");
+		$suggestChordNameCollection = $("#suggestChordName");
+
+		$suggestChordNameCollection.on("click" , "a" , function(){
+			var name = $(this).text();
+			$chordTitleInput.val(name);
+			$suggestChordNameCollection.html('');
+		});
+
 		$chordList.on("click", ".chordItem" , function(){			
 			$(this).siblings().removeClass("selected").end().addClass("selected");			
 		});
-
-		$chordTitleInput.on("focus" , o.queryChordName );
+		
 		$("#addButton").on("click" , o.add);
 		$("#updateButton").on("click" , o.update);
 		$("#cancelButton").on("click" , o.cancel);
@@ -75,7 +85,7 @@ var main = (function(o){
 			$muteButtonWrap = $(".mutebuttonWrap"),	
 			$loadingMsg = $outputLinkWrap.find(".loadingMsg");
 		
-		chord_diagram.init($strings , $muteButtonWrap);
+		chord_diagram.init($strings , $muteButtonWrap , chordDiagramChangeEvent);
 		
 		$chordTitleInput = $("#chordTitle");
 		urlHandler.init($outputLink , $loadingMsg);
@@ -155,22 +165,26 @@ var main = (function(o){
 		addMode();
 	}
 
+	var chordDiagramChangeEvent = function(){		
+		clearTimeout(queryChordNameTimer);
+		queryChordNameTimer = setTimeout(o.queryChordName , 1000);
+	}
+
 	o.queryChordName = function(){
 		var outputArray = chord_diagram.getOutputArray();		
-		var suggestionName = chordName.queryChordName(outputArray);
+		chordName.queryChordName(outputArray , o.queryChordNameComplete);	
+	}
 
+	o.queryChordNameComplete = function(suggestionName){
 		$chordTitleInput.autocomplete({
             source: suggestionName
         });
-        
-		/**
 		var htmlFragment = "";
 		for(var i =0; i<suggestionName.length ; i++){
 			htmlFragment += '<a href="#">' + suggestionName[i] + '</a>';
 		}
-		$("#suggestChordName").html(htmlFragment);
-		**/
-	}
+		$suggestChordNameCollection.html(htmlFragment);
+	} 
 
 
 	return o;
