@@ -53,6 +53,7 @@ var chord_diagram = (function(o){
 			$(".noteArea .note").eq(stringIndex).html(note);
 			$sameString.find(".finger").hide();							
 			$(this).find(".finger").show();
+			$.publish("chordDiagramModel/change");
 		});
 	}
 
@@ -65,6 +66,7 @@ var chord_diagram = (function(o){
 			$muteButtonWrap.find(".muteButton").eq(index).removeClass("disable");
 			$(this).hide();		
 			$(".noteArea .note").eq(index).html(getNote(index,-1));
+			$.publish("chordDiagramModel/change");
 		});
 	}
 
@@ -86,7 +88,7 @@ var chord_diagram = (function(o){
    				$strings.eq(index).addClass("hide");	   				
    				$(".noteArea .note").eq(index).html('');
    			}
-   			
+   			$.publish("chordDiagramModel/change");
    		});
 	}
 
@@ -111,16 +113,16 @@ var chord_diagram = (function(o){
 		return outputArray;
 	}
 
-	o.init = function($el1 , $el2 , modelChangeEvent){
+	o.init = function($el1 , $el2){
 		$strings = $el1;
 		$muteButtonWrap = $el2;
-		bindEvent(modelChangeEvent);
+		bindEvent();
 	}
 
-	var bindEvent = function(modelChangeEvent){
+	var bindEvent = function(){
 		//observer
-		$strings.on("click" , modelChangeEvent);
-		$muteButtonWrap.on("click" , ".muteButton" , modelChangeEvent);
+		//$strings.on("click" , modelChangeEvent);
+		//$muteButtonWrap.on("click" , ".muteButton" , modelChangeEvent);
 		muteStringEvent();
 		setFingerEvent();
 		setFingerButtonEvent();
