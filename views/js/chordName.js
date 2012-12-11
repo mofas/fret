@@ -165,6 +165,7 @@ var chordName = (function(o){
 	var chordAnalysis = function(){		
 		if(scaleMap.length == 2){
 			twoNotesAnalysis();
+			return;
 		}
 
 		scaleMap.remove(7);
@@ -235,17 +236,18 @@ var chordName = (function(o){
 				scaleMap.push(scale);
 			}		
 			scaleMap.sort(function(a,b){return a-b });
-			console.log("scale" , scaleMap);
 
+			//console.log("scale" , scaleMap);
 			chordAnalysis();
 					
-			var currentSuggestionNameLength = suggestionName.length;
+			var currentSuggestionNameLength = suggestionName.length;			
 			if(rotatingOrder > 0 && currentSuggestionNameLength > suggestionNameLength){
 				for(var i = suggestionNameLength; i < currentSuggestionNameLength ; i++){
 					suggestionName[i] = suggestionName[i] + "/" + bassNoteName;
-				}
-				suggestionNameLength = currentSuggestionNameLength;
+				}				
 			}
+
+			suggestionNameLength = currentSuggestionNameLength;
 
 			rotatingOrder++;
 			workerTimer = setTimeout(arguments.callee , 1);

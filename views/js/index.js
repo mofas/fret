@@ -183,6 +183,9 @@ var main = (function(o){
 		for(var i =0; i<suggestionName.length ; i++){
 			htmlFragment += '<a href="#">' + suggestionName[i] + '</a>';
 		}
+		if(suggestionName.length ===0 ){
+			htmlFragment = '<span class="no-result">資料庫尚無資料</span>'
+		}
 		$suggestChordNameCollection.html(htmlFragment);
 	} 
 

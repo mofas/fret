@@ -452,3 +452,15 @@ body{
 	color: #fff;
 	background: #50A345;
 }
+
+#suggestChordName .no-result{
+	display: block;
+	margin-right: 20px;
+	float: left;	
+	color: #777;
+	font-size: 24px;
+	background: #D6D6D6;
+	border: 1px solid rgba(0,0,0,0.2);
+	border-radius: 5px;
+	padding: 5px 10px;
+}
