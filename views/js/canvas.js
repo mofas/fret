@@ -83,7 +83,7 @@ var canvas_chord_diagram = (function(o){
 	}
 
 	function reDraw(){
-		if(ctx === undefined){
+		if(ctx == null){
 			initCanvas();
 		}
 		else{

@@ -32,7 +32,7 @@ var urlHandler = (function(o){
 			noteInfo;
 
 		//chord collection
-		if(param === undefined){
+		if(param === null){
 			chord_diagram.setoutputArray([0,0,0,0,0,0]);
 			chord_diagram.parseNote();
 			return;
@@ -72,7 +72,7 @@ var urlHandler = (function(o){
 	o.shortUrl = function(){
 		showLoadingMsg();
         if(shortURL.length < 1 || URLIsChanged){
-        	if(window.gapi === undefined){
+        	if(window.gapi == null){
         		$.getScript("https://apis.google.com/js/client.js?onload=initGoogleAPI");
         	}
         	else{
