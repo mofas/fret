@@ -73,8 +73,6 @@ var chord_collection = (function(o){
 		outputCanvas.height = canvasHeight;
 		outputCanvasCtx = outputCanvas.getContext('2d');		
 
-		//Test Code
-		//$('body').append(outputCanvas);
 		imageData;		
 		for(var i = 0 ; i < length ; i++){
 			imageData = chordCollection[i].canvas;
@@ -83,7 +81,8 @@ var chord_collection = (function(o){
 		strDownloadMime = "image/octet-stream";
 		
 		strData = outputCanvas.toDataURL("image/png");
-		saveFile(strData.replace("image/png", strDownloadMime));
+		//saveFile(strData.replace("image/png", strDownloadMime));
+		return strData;
 	}
 
 

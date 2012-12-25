@@ -109,3 +109,9 @@
 	margin: 0 auto;
 	text-align:right;
 }
+
+#mainPanel .downloadLink{
+	text-decoration: none;
+	color: #999;
+	font-weight: bold;
+}

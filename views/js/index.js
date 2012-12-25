@@ -45,6 +45,11 @@ var main = (function(o){
 			var name = $(this).text();
 			$chordTitleInput.val(name);
 			$suggestChordNameCollection.html('');
+			return false;
+		});
+
+		$("#mainPanel").on("click" , ".downloadLink" , function(){
+			$(this).remove();
 		});
 
 		$chordList.on("click", ".chordItem" , function(){			
@@ -114,7 +119,11 @@ var main = (function(o){
 	}	
 
 	o.saveAsImage = function(){
-		chord_collection.outputCollectionImage();
+		var strData = chord_collection.outputCollectionImage();
+		var fragHtml = "<a class='downloadLink' href='" + strData + "' download='和絃.png'>下載</a>";
+		var $button = $(fragHtml);
+		$("#mainPanel").find(".downloadLink").remove();
+		$("#saveImageButton").after($button);			
 	}
 	
 	o.output = function(){		

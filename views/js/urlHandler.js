@@ -23,7 +23,7 @@ var urlHandler = (function(o){
 	}	
 
 	o.parseNoteByURL = function(){		
-		var param =  window.location.href.split("?")[1] , 
+		var param =  window.location.href.split("?")[1] || "", 
 			chordName,
 			collection,
 			strArray,
