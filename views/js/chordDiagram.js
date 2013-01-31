@@ -103,24 +103,6 @@ var chord_diagram = (function(o){
 
 
 	o.getOutputArray = function(){		
-		/**
-		$strings.each(function(index , obj){
-			$string = $(obj);
-			$button = $string.find(".finger:visible");
-			var isMute = $muteButtons.eq(index).hasClass("mute");						
-			if($button.length > 0){								
-				outputArray[index] = parseInt($button.index('.finger'))- 15*index + 1;
-			}
-			else{
-				if(isMute){
-					outputArray[index] = -1;
-				}
-				else{
-					outputArray[index] = 0;
-				}
-			}			
-		});
-		**/
 		return outputArray;
 	}
 
@@ -134,9 +116,6 @@ var chord_diagram = (function(o){
 	}
 
 	var bindEvent = function(){
-		//observer
-		//$strings.on("click" , modelChangeEvent);
-		//$muteButtonWrap.on("click" , ".muteButton" , modelChangeEvent);
 		muteStringEvent();
 		setFingerEvent();
 		setFingerButtonEvent();

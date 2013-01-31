@@ -16,6 +16,7 @@ var chord_collection = (function(o){
 	o.add = function(name, canvas , fingerIndex){
 		var newObj = new chordObj(name , canvas , fingerIndex);
 		chordCollection.push(newObj);
+		$.publish("chordCollections/change");
 		return newObj.index;
 	}
 
@@ -24,6 +25,7 @@ var chord_collection = (function(o){
 		while(length--){
 			if(chordCollection[length].index == uuID){
 				chordCollection.splice(length , 1);
+				$.publish("chordCollections/change");
 			}
 		}
 	}
@@ -44,6 +46,7 @@ var chord_collection = (function(o){
 				chordCollection[length].name = name;
 				chordCollection[length].canvas = canvas;
 				chordCollection[length].fingerIndex = fingerIndex;
+				$.publish("chordCollections/change");
 			}
 		}
 	}

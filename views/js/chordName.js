@@ -243,9 +243,7 @@ var chordName = (function(o){
 			}		
 			scaleMap.sort(function(a,b){return a-b });
 
-			console.log("scale" , scaleMap);
-			chordAnalysis();
-			console.log("suggestionName" , suggestionName);
+			chordAnalysis();			
 					
 			var currentSuggestionNameLength = suggestionName.length;			
 			if(rotatingOrder > 0 && currentSuggestionNameLength > suggestionNameLength){
