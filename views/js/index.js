@@ -36,6 +36,7 @@ var main = (function(o){
 	var queryChordNameTimer = null;
 
 	var bindEvent = function(){
+
 		$chordList = $("#chordList");
 		$chordDiagram = $('.chord_diagramWrap');
 		$outputLink = $("#outputLink");
@@ -114,7 +115,7 @@ var main = (function(o){
 		
 		$chordTitleInput = $("#chordTitle");
 		urlHandler.init($outputLink , $loadingMsg);
-		urlHandler.parseNoteByURL();
+		urlHandler.parseNoteByURL();		
 		bindEvent();
 	}	
 
@@ -197,16 +198,16 @@ var main = (function(o){
 	var chordDiagramChangeEvent = function(){		
 		clearTimeout(queryChordNameTimer);
 		queryChordNameTimer = setTimeout(o.queryChordName , 1000);
-		pushURLState();
+		changeURL();
 	}
 
 	var chordCollectionsChangeEvent = function(){
-		pushURLState();	
+		changeURL();	
 	}
 
-	var pushURLState = function(){				
-		var url = urlHandler.output();		
-	    history.pushState(null , "線上和絃編輯工具 | 吉他好朋友" , url);
+	var changeURL = function(){
+		var url = urlHandler.output();
+		window.history.replaceState(null , "線上和絃編輯工具 | 吉他好朋友" , url);
 	}
 
 	o.queryChordName = function(){

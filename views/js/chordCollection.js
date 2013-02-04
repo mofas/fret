@@ -13,6 +13,11 @@ var chord_collection = (function(o){
 	    this.fingerIndex = fingerIndex;
 	};
 
+
+	o.reset = function(){
+		chordCollection = [];		
+	}
+
 	o.add = function(name, canvas , fingerIndex){
 		var newObj = new chordObj(name , canvas , fingerIndex);
 		chordCollection.push(newObj);
