@@ -5,6 +5,7 @@ var canvas_chord_diagram = (function(o){
 	var canvas,ctx,W,H,diagramW,
 		chordName,
 		fingerIndex,first_fret=24, last_fret=0, 
+		firstStringPadding = 35,
 		fretDiff,fretW;
 
 	function drawBasicLayout(){	
@@ -12,12 +13,12 @@ var canvas_chord_diagram = (function(o){
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = "#333";
 		for(var i = 0 ; i < 6 ; i++){		
-			ctx.moveTo(22, 35+i*24);
-			ctx.lineTo(diagramW, 35+i*24);
+			ctx.moveTo(22, firstStringPadding+i*24);
+			ctx.lineTo(diagramW, firstStringPadding+i*24);
 		}		
 		for(var i = 0; i < fretDiff ; i++){
-			ctx.moveTo(diagramW-i*fretW, 33);
-			ctx.lineTo(diagramW-i*fretW, 157);
+			ctx.moveTo(diagramW-i*fretW, firstStringPadding-2);
+			ctx.lineTo(diagramW-i*fretW, firstStringPadding+5*24+2);
 		}
 		ctx.stroke();
 	}
@@ -43,16 +44,16 @@ var canvas_chord_diagram = (function(o){
 		if(first_fret > 1){
 			ctx.fillText(first_fret , 15 + 0.5*fretW , 27);			
 			ctx.beginPath();
-			ctx.moveTo(21, 33);
-			ctx.lineTo(21, 157);
+			ctx.moveTo(21, firstStringPadding-2);
+			ctx.lineTo(21, firstStringPadding+5*24+2);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 3;
 			ctx.stroke();
 		}		
 		else{
 			ctx.beginPath();
-			ctx.moveTo(20, 33);
-			ctx.lineTo(20, 157);
+			ctx.moveTo(20, firstStringPadding-2);
+			ctx.lineTo(20, firstStringPadding+5*24+2);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 10;
 			ctx.stroke();
