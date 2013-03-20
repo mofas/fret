@@ -6,6 +6,7 @@ var canvas_chord_diagram = (function(o){
 		chordName,
 		fingerIndex,first_fret=24, last_fret=0, 
 		firstStringPadding = 35,
+		distanceBetweenString,
 		fretDiff,fretW;
 
 	function drawBasicLayout(){	
@@ -13,12 +14,12 @@ var canvas_chord_diagram = (function(o){
 		ctx.lineWidth = 3;
 		ctx.strokeStyle = "#333";
 		for(var i = 0 ; i < 6 ; i++){		
-			ctx.moveTo(22, firstStringPadding+i*24);
-			ctx.lineTo(diagramW, firstStringPadding+i*24);
+			ctx.moveTo(22, firstStringPadding+i*distanceBetweenString);
+			ctx.lineTo(diagramW, firstStringPadding+i*distanceBetweenString);
 		}		
 		for(var i = 0; i < fretDiff ; i++){
 			ctx.moveTo(diagramW-i*fretW, firstStringPadding-2);
-			ctx.lineTo(diagramW-i*fretW, firstStringPadding+5*24+2);
+			ctx.lineTo(diagramW-i*fretW, firstStringPadding+5*distanceBetweenString+2);
 		}
 		ctx.stroke();
 	}
@@ -45,7 +46,7 @@ var canvas_chord_diagram = (function(o){
 			ctx.fillText(first_fret , 15 + 0.5*fretW , 27);			
 			ctx.beginPath();
 			ctx.moveTo(21, firstStringPadding-2);
-			ctx.lineTo(21, firstStringPadding+5*24+2);
+			ctx.lineTo(21, firstStringPadding+5*distanceBetweenString+2);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 3;
 			ctx.stroke();
@@ -53,7 +54,7 @@ var canvas_chord_diagram = (function(o){
 		else{
 			ctx.beginPath();
 			ctx.moveTo(20, firstStringPadding-2);
-			ctx.lineTo(20, firstStringPadding+5*24+2);
+			ctx.lineTo(20, firstStringPadding+5*distanceBetweenString+2);
 			ctx.strokeStyle = "#333";
 			ctx.lineWidth = 10;
 			ctx.stroke();
@@ -66,7 +67,7 @@ var canvas_chord_diagram = (function(o){
 				if(first_fret > 1 || (first_fret = 1 && fretDiff >= 4)){
 					position += fretW;					
 				}				
-				ctx.arc(position, 35+i*24, 10, 0, Math.PI*2 , false); 
+				ctx.arc(position, 35+i*distanceBetweenString, distanceBetweenString/2.2, 0, Math.PI*2 , false); 
 				ctx.fillStyle = "#333";		
 				ctx.fill();
 			}			
@@ -74,10 +75,10 @@ var canvas_chord_diagram = (function(o){
 				ctx.beginPath();
 				ctx.strokeStyle = "#333";
 				ctx.lineWidth = 3;
-				ctx.moveTo(2 , 30+i*24);
-				ctx.lineTo(12 , 40+i*24);
-				ctx.moveTo(12 , 30+i*24);
-				ctx.lineTo(2 , 40+i*24);
+				ctx.moveTo(2 , 30+i*distanceBetweenString);
+				ctx.lineTo(12 , 40+i*distanceBetweenString);
+				ctx.moveTo(12 , 30+i*distanceBetweenString);
+				ctx.lineTo(2 , 40+i*distanceBetweenString);
 				ctx.stroke();
 			}			
 		}	
@@ -112,7 +113,9 @@ var canvas_chord_diagram = (function(o){
 			last_fret = first_fret + 3;
 			fretDiff = 4;
 		}
+
 		diagramW = W-20;
+		distanceBetweenString = (H-firstStringPadding*2)/5;
 
 		fretW = (diagramW-20)/fretDiff; //15 mean left
 		drawBasicLayout();
