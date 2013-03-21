@@ -12,7 +12,13 @@ var chord_collection = (function(o){
 	    this.canvas = canvas;
 	    this.fingerIndex = fingerIndex;
 	};
-
+	
+	o.changeOrder = function(originalIndex , newIndex){
+		var moveObj = chordCollection[originalIndex];
+		chordCollection.splice(originalIndex , 1);
+		chordCollection.splice(newIndex , 0 , moveObj);		
+		$.publish("chordCollections/change");
+	}
 
 	o.reset = function(){
 		chordCollection = [];		
