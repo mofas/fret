@@ -1,0 +1,109 @@
+ul , li{
+	list-style: none;
+	margin: 0; padding: 0;
+}
+
+.clearfix{*zoom:1}.clearfix:before,.clearfix:after{display:table;line-height:0;content:""}.clearfix:after{clear:both}
+
+#rhythmEditor{
+	width: 640px;
+	margin: 0 auto;	
+}
+
+.muteBtnList li,
+.shredBarList li{
+	opacity: 0.2;
+	float:left;
+	cursor: pointer;
+}
+.muteBtnList li:hover,
+.shredBarList li:hover{
+	opacity: 0.6;
+}
+.muteBtnList li.selected,
+.shredBarList li.selected{
+	opacity: 1;
+}
+
+
+
+.muteBtnList{
+	
+}
+.muteBtnList li{
+	float:left;
+	width: 30px;
+	height: 30px;
+	margin: 5px 5px;
+	background: #333;
+	border-radius: 50%;	
+}
+
+.shredBarList{
+	
+}
+
+.shredBarList li{
+	float:left;
+	width: 20px;
+	height: 120px;
+	margin: 25px 10px;
+	background: #333;
+	position: relative;	
+}
+
+.shredBarList li:nth-child(even){
+	top: 10px;
+}
+.shredBarList li:nth-child(odd){
+	bottom: 10px;
+}
+.shredBarList li:after{
+	content: "";
+	position: absolute;
+	width: 0;
+	height: 0;
+}
+.shredBarList li:nth-child(even):after{	
+	top: -20px;
+	left: -10px;	
+	border-bottom: 20px solid #333;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+}
+
+.shredBarList li:nth-child(odd):after{	
+	bottom: -20px;
+	left: -10px;	
+	border-top: 20px solid #333;
+	border-left: 20px solid transparent;
+	border-right: 20px solid transparent;
+}
+
+
+.rhythmBar{
+
+}
+
+.rhythmBar li{
+	width: 38px;
+	margin: 5px 1px;
+	height: 10px;	
+	float: left;
+	opacity: 0.2;
+}
+.rhythmBar .single{
+	border-bottom: 2px solid #333;	
+}
+
+.rhythmBar .double{
+	height: 8px;
+	border-top: 2px solid #333;	
+	border-bottom: 2px solid #333;	
+}
+.rhythmBar .active{
+	opacity: 1;
+}
+.rhythmBar .mute{
+	opacity: 0;
+}
