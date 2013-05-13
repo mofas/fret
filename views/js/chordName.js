@@ -10,6 +10,11 @@ Array.prototype.remove = function() {
 };
 
 
+
+$(document).ready(function() {
+	chordName.init();
+});
+
 var chordName = (function(o){
 
 	var noteMap = [],
@@ -266,7 +271,7 @@ var chordName = (function(o){
 
 	}
 	
-	o.queryChordName = function(noteArray , callback){
+	var queryChordName = function(e , noteArray , callback){
 		reset();
 		//noteArray like [0, 0, 3, 3, 0, 1] the first is the highest string
 		//normally get it from chord_diagram.getOutputArray();		
@@ -279,6 +284,10 @@ var chordName = (function(o){
 		}
 		mapNote();		
 		_callback = callback;
+	}
+	
+	o.init = function(){
+		$.subscribe("chordName/query" , queryChordName);
 	}
 
 	var reset = function(){

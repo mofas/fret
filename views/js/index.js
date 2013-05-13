@@ -94,10 +94,12 @@ var main = (function(o){
 	o.shortUrlEvent = function(){		
 		if (!$(this).is(':checked')) {
 	        $(this).trigger("change");	        
-	        urlHandler.shortUrl();	        
+	        //urlHandler.shortUrl(); 
+	        $.publish("urlHandler/shortUrl");
 	    }
 	    else{	    	
-	    	urlHandler.resetUrl();	    	
+	    	//urlHandler.resetUrl();	    	
+	    	$.publish("urlHandler/resetUrl");
 	    }	    
 	}	
 
@@ -114,8 +116,10 @@ var main = (function(o){
 		$.subscribe("chordCollections/change" , chordCollectionsChangeEvent);
 		
 		$chordTitleInput = $("#chordTitle");
-		urlHandler.init($outputLink , $loadingMsg);
-		urlHandler.parseNoteByURL();		
+
+		$.publish("urlHandler/init");
+		// urlHandler.init($outputLink , $loadingMsg);
+		// urlHandler.parseNoteByURL();		
 		bindEvent();
 	}	
 
@@ -129,11 +133,12 @@ var main = (function(o){
 	
 	o.output = function(){		
 		if($outputLinkWrap.css('visibility') == 'visible')
-			return;		
-		var url = urlHandler.output();
+			return;				
+		//var url = urlHandler.output();
 		$outputLinkWrap.css({visibility: 'visible'});
 		bindHideOutputEvent();
-		$outputLink.val(url).focus().select();
+		//$outputLink.val(url).focus().select();
+		$.publish("urlHandler/refreshURLLink");
 	}	
 
 	o.add = function(){				
@@ -206,13 +211,15 @@ var main = (function(o){
 	}
 
 	var changeURL = function(){
-		var url = urlHandler.output();
-		window.history.replaceState(null , "線上和絃編輯工具 | 吉他好朋友" , url);
+		$.publish("urlHandler/changeURL");
+		// var url = urlHandler.output();
+		// window.history.replaceState(null , "線上和絃編輯工具 | 吉他好朋友" , url);
 	}
 
 	o.queryChordName = function(){
 		var outputArray = chord_diagram.getOutputArray();		
-		chordName.queryChordName(outputArray , o.queryChordNameComplete);			
+		//chordName.queryChordName(outputArray , o.queryChordNameComplete);			
+		$.publish("chordName/query" , [outputArray , o.queryChordNameComplete]);
 	}
 
 	o.queryChordNameComplete = function(suggestionName){

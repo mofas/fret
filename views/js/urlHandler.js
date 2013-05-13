@@ -1,4 +1,7 @@
 
+$(function(){			
+	urlHandler.init();
+});
 
 
 
@@ -17,12 +20,21 @@ var urlHandler = (function(o){
 		URLIsChanged = false;
 
 
-	o.init = function($el1 , $el2){
-		$outputLink = $el1;
-		$loadingMsg = $el2;
+	// o.init = function($el1 , $el2){
+	// 	$outputLink = $el1;
+	// 	$loadingMsg = $el2;
+	o.init = function(){
+		var $outputLinkWrap = $(".outputLinkWrap");
+		$outputLink = $("#outputLink");
+		$loadingMsg = $outputLinkWrap.find(".loadingMsg");
+		$.subscribe("urlHandler/init" , parseNoteByURL);
+		$.subscribe("urlHandler/shortUrl" , shortUrl);
+		$.subscribe("urlHandler/resetUrl" , resetUrl);
+		$.subscribe("urlHandler/refreshURLLink" , refreshURLLink);
+		$.subscribe("urlHandler/changeURL" , changeURL);
 	}	
 
-	o.parseNoteByURL = function(){		
+	var parseNoteByURL = function(){		
 		var param =  window.location.href.split("?")[1] || "", 
 			chordName,
 			collection,
@@ -69,7 +81,7 @@ var urlHandler = (function(o){
 	}
 
 
-	o.shortUrl = function(){
+	var shortUrl = function(){
 		showLoadingMsg();
         if(shortURL.length < 1 || URLIsChanged){
         	if(window.gapi == null){
@@ -84,7 +96,7 @@ var urlHandler = (function(o){
         }	    
 	}
 
-	o.resetUrl = function(){
+	var resetUrl = function(){
 		$outputLink.val(originURL);		
 	}
 
@@ -112,7 +124,7 @@ var urlHandler = (function(o){
 		$loadingMsg.hide();
 	}
 
-	o.output = function(){
+	var output = function(){
 		var outputString = "note=",
 			outputArray = chord_diagram.getOutputArray();
 			
@@ -123,8 +135,18 @@ var urlHandler = (function(o){
 		outputString += chord_collection.outputCollectionURL();
 		var urlEnd = (window.location.href.lastIndexOf("?") > 0) ? window.location.href.lastIndexOf("?") : window.location.href.length,
 			url = window.location.href.substring( 0 , urlEnd ) + "?" + outputString;
-		checkURLIsChanged(url);		
+		checkURLIsChanged(url);				
 		return url;
+	}
+
+	var refreshURLLink = function(){		
+		var url = output();
+		$outputLink.val(url).focus().select();
+	}
+
+	var changeURL = function(){
+		var url = output();
+		window.history.replaceState(null , "線上和絃編輯工具 | 吉他好朋友" , url);
 	}
 
 	var checkURLIsChanged = function(url){
